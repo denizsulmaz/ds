@@ -1,10 +1,3 @@
-// Custom cursor
-const cursor = document.getElementById('cursor');
-document.addEventListener('mousemove', (e) => {
-  cursor.style.left = e.clientX + 'px';
-  cursor.style.top = e.clientY + 'px';
-});
-
 // Setup Three.js scene
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
@@ -142,7 +135,7 @@ const mouseEffectMaterial = new THREE.MeshBasicMaterial({
 const mouseEffect = new THREE.Mesh(mouseEffectGeometry, mouseEffectMaterial);
 scene.add(mouseEffect);
 mouseEffect.visible = true;
-mouseEffect.scale.set(7, 7, 7); // Fixed size sphere
+mouseEffect.scale.set(1, 1, 1); // Fixed size sphere
 
 // Handle window resize
 window.addEventListener('resize', () => {
@@ -175,7 +168,7 @@ function isMobile() {
 function animate() {
   requestAnimationFrame(animate);
   
-  time += 0.001;
+  time += 0.000;
   
   // Update raycaster with mouse position
   raycaster.setFromCamera(mouse, camera);
@@ -189,7 +182,7 @@ function animate() {
     mouseWorldPosition.copy(intersects[0].point);
   } else {
     // Default position if no intersection
-    mouseWorldPosition.set(mouse.x * 990, mouse.y * 990, 0);
+    mouseWorldPosition.set(mouse.x * 90, mouse.y * 90, 0);
   }
   
   // Update visual mouse effect position (but keep size fixed)
@@ -281,3 +274,127 @@ function animate() {
 
 // Start animation
 animate();
+
+
+
+// Letter changes in the header
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  const heading = document.getElementById('animated-heading');
+  const originalText = heading.textContent;
+  
+  // Clear the heading content
+  heading.innerHTML = '';
+  
+  // Split text into individual span elements
+  for (let i = 0; i < originalText.length; i++) {
+      const letter = document.createElement('span');
+      letter.className = 'letter';
+      letter.textContent = originalText[i];
+      letter.dataset.original = originalText[i];
+      
+      // Generate alternative letters for each character
+      if (originalText[i] !== ' ') {
+          letter.dataset.alternatives = generateAlternatives(originalText[i]);
+      }
+      
+      heading.appendChild(letter);
+  }
+  
+  // Tracking current animations
+  let currentlyAnimating = 0;
+  const MAX_ANIMATIONS = 1; // Maximum concurrent animations allowed
+  let lastAnimationTime = 0; // Track the last time an animation started
+  const ANIMATION_DELAY = 1500; // 0.3s delay between animations
+  
+  // Add event listeners
+  const letters = document.querySelectorAll('.letter');
+  
+  // Random animation trigger
+  setInterval(() => {
+      const now = Date.now();
+      // Check if we've waited long enough since the last animation started
+      if (currentlyAnimating < MAX_ANIMATIONS && (now - lastAnimationTime >= ANIMATION_DELAY)) {
+          // Get all non-animating letters
+          const inactiveLetters = Array.from(letters).filter(letter => 
+              !letter.dataset.animating && letter.textContent !== ' ');
+          
+          if (inactiveLetters.length > 0) {
+              // Choose a random letter to animate
+              const randomIndex = Math.floor(Math.random() * inactiveLetters.length);
+              animateLetter(inactiveLetters[randomIndex]);
+              currentlyAnimating++;
+              lastAnimationTime = now; // Update the last animation time
+          }
+      }
+  }, 500);
+  
+  // Hover animation
+  letters.forEach(letter => {
+      if (letter.textContent !== ' ') {
+          letter.addEventListener('mouseenter', () => {
+              if (!letter.dataset.animating) {
+                  animateLetter(letter, true);
+                  // Don't increment currentlyAnimating for hover
+                  // Don't update lastAnimationTime for hover animations
+              }
+          });
+      }
+  });
+  
+  function animateLetter(letterElement, isHover = false) {
+      if (letterElement.dataset.animating) return;
+      
+      letterElement.dataset.animating = 'true';
+      letterElement.classList.add('animating');
+      if (isHover) {
+          letterElement.dataset.isHover = 'true';
+      }
+      
+      const original = letterElement.dataset.original;
+      const alternatives = letterElement.dataset.alternatives;
+      let iterations = 0;
+      const maxIterations = 3; // Number of character changes before returning to original
+      
+      const interval = setInterval(() => {
+          if (iterations >= maxIterations) {
+              letterElement.textContent = original;
+              clearInterval(interval);
+              setTimeout(() => {
+                  delete letterElement.dataset.animating;
+                  letterElement.classList.remove('animating');
+                  
+                  // Decrement animation counter for random animations only
+                  if (!letterElement.dataset.isHover) {
+                      currentlyAnimating--;
+                  }
+                  delete letterElement.dataset.isHover;
+              }, 300);
+              return;
+          }
+          
+          const randomIndex = Math.floor(Math.random() * alternatives.length);
+          letterElement.textContent = alternatives[randomIndex];
+          iterations++;
+      }, 150); // Each change lasts 150ms, total animation time = 450ms (less than 0.7s)
+  }
+});
+
+function generateAlternatives(character) {
+  // Characters to choose from based on the original character
+  const letters = 'abcdtuvwxyz01230';
+  let alternatives = '';
+  
+  // Generate 9 alternative characters (plus the original makes 10)
+  for (let i = 0; i < 9; i++) {
+      let randomChar;
+      do {
+          randomChar = letters.charAt(Math.floor(Math.random() * letters.length));
+      } while (alternatives.includes(randomChar) || randomChar === character);
+      
+      alternatives += randomChar;
+  }
+  
+  return alternatives;
+}
