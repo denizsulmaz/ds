@@ -85,9 +85,11 @@
             padding: 0 5%;
             text-align: center;
             overflow:hidden !important;
-            cursor: none; /* Hide default cursor */
+            cursor: url('media/crcl.ico'), default;
+            /* cursor: none;  */
         }
         .hero canvas {
+            z-index: 1;
             width: 100% !important;
             height: 98vh;
             overflow: hidden !important;
@@ -95,7 +97,7 @@
             position: absolute;
             top: 0;
             left: 0;
-            pointer-events: none; /* Don't block any clicks */
+            pointer-events: none;
         }
         .hero .canvasholder{
             overflow: hidden;
@@ -105,13 +107,23 @@
             z-index: 9;
             position: absolute;
             bottom: 20px;
-            font-size: 11.5rem;
+            font-size: 11rem;
             font-weight: 700;
             letter-spacing: 1px;
             pointer-events: none;
         }
         .hero{overflow: hidden !important;}
 
+        .letter {
+            display: inline-block;
+            padding: 2px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .letter:hover, .letter.animating {
+            background-color: white;
+            color: black;
+        }
         /* Intro Section */
         .intro {
             padding: 5rem 5% 0rem 5%;
@@ -643,7 +655,7 @@
     <!-- Hero Section - Only Name -->
     <section class="hero">
         <canvas id="canvas"></canvas>
-        <h1>DENİZ SULMAZ</h1>
+        <h1 id="animated-heading">DENİZ &nbsp; SULMAZ</h1>
     </section>
 
     <!-- Intro Section - Moved from Hero -->
