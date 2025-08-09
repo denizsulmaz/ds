@@ -135,7 +135,7 @@
         }
 
         .intro p {
-            max-width: 43vw;
+            max-width: 32vw;
             margin: 0 5rem;
             font-size: 1.4rem;
             font-weight: 600;
@@ -324,6 +324,11 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            overflow: hidden;
+            transition: 0.3s ease-in-out;
+        }
+        .gallery-item img:hover{
+            height: 115%;
         }
 
         /* Quotes Section */
@@ -512,6 +517,52 @@
         .mobile-menu-items a:hover {
             color: #ccc;
         }
+        .resources{
+            margin: auto 5vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        
+            margin: 5rem auto;
+            margin-bottom: 15rem;
+            max-width: 1200px;
+        }
+        .resources a{
+            box-shadow: 0 1px 20px rgba(28, 28, 28, 0.1);
+            border-radius: 18px;
+            margin-top: 5vh;
+            transition: 0.3s ease-in-out;
+        }
+        .resources a:hover{
+            opacity: 0.8;
+            margin-top: 4.6vh;
+            margin-bottom: 0.4vh;
+            transition: 0.5 ease-in-out;
+        }
+        .resources .row{
+            display: flex;
+            flex-direction: row;
+        }
+        .resources img{
+            width: 40%;
+            border-bottom-left-radius: 18px;
+            border-top-left-radius: 18px ;
+        }
+        .resources .textBox{
+            margin: auto 4%;
+            margin-right: 2%;
+        }
+        .resources h5 {
+            opacity: 0.6;
+            margin-top: 20px;
+            font-size: 1rem;
+            line-height: 160%;
+        }
+
+
+
+
+
 
         /* Responsive Design */
         @media (max-width: 1024px) {
@@ -619,6 +670,45 @@
             .project-grid {
                 grid-template-columns: 1fr; /* Single column on mobile */
             }
+        .resources{
+            margin: auto 5vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 96%;
+            margin-top: 10vh
+        }
+        .resources a{
+            box-shadow: 0 1px 20px rgba(28, 28, 28, 0.1);
+            border-radius: 18px;
+            margin-top: 5vh;
+            transition: 0.3s ease-in-out;
+        }
+        .resources a:hover{
+            opacity: 0.8;
+            margin-top: 4.6vh;
+            margin-bottom: 0.4vh;
+            transition: 0.5 ease-in-out;
+        }
+        .resources .row{
+            display: flex;
+            flex-direction: column;
+        }
+        .resources img{
+            width: 100%;
+            border-bottom-left-radius: 0px;
+            border-top-left-radius: 18px ;
+            border-top-right-radius: 18px ;
+        }
+        .resources .textBox{
+            margin: auto 4%;
+            margin-right: 2%;
+            padding: 3vh 1vw;
+            text-align: center;
+        }
+        .resources h2 {
+            font-size: 1.4rem;
+        }
         }
     </style>
 </head>
@@ -660,20 +750,19 @@
 
     <!-- Intro Section - Moved from Hero -->
     <section class="intro">
-        <p>The future isn’t something we wait for—it’s something we build. United by a shared purpose and driven by bold innovation, we are creating a Sustainable United Future Ecosystem where collaboration empowers, and impact shapes a harmonious world. <br> Together, we are designing the future we seek.</p>
+        <p>The future isn’t something we wait for—it’s something we build. United by a shared purpose and driven by bold innovation, we are creating a Sustainable United Future Ecosystem where collaboration empowers, and impact shapes a harmonious world. Together, we are designing the future we seek.</p>
     </section>
 
     <!-- About Section -->
     <section class="about" id="about">
         <h2>ABOUT / #whoami</h2>
         <p>
-            I’m Deniz, a global social and high-tech entrepreneur with a generalist mindset. My work cuts across industries, ideas, and cultures—but at its core, it’s about building systems that last. Whether it’s technology, social innovation, or business strategy, I focus on creating long-term, sustainable value for people and organizations navigating an increasingly complex world.
+            Deniz is a global social and high-tech entrepreneur whose career crosses industries, disciplines, and cultures. He combines entrepreneurial agility with systems thinking, always seeking the patterns and connections that transform ideas into solutions with lasting impact. His work spans technology, social innovation, and strategy, all grounded in the goal of creating meaningful and sustainable change.
             <br><br>
-            I tend to think in systems and connections. I’m curious about how things function beneath the surface—how structures, behaviors, and incentives shape outcomes, and how we can redesign them to work better. Some people call it problem-solving; I think of it as sense-making and future-building.
-            I’ve built products, businesses, and communities—some from scratch, others by reshaping what was already there. What ties them together is an obsession with designing things that are built to endure and evolve. I’m less interested in temporary wins and more focused on creating frameworks that empower people to solve real problems in their own contexts.
+            Deniz has built products, businesses, and communities both from scratch and by transforming existing structures. His focus is on creating frameworks that enable people to solve problems within their own contexts. The results he pursues are resilient, adaptable, and built to scale, whether he is working with startups, NGOs, or established organizations.
             <br><br>
-            Beyond my work, I’ve always been drawn to philosophy, sound, and design—not as hobbies, but as tools to explore how we make sense of the world. Philosophy helps me question assumptions. Sound teaches me to listen between the lines. Design pushes me to balance clarity with complexity. These aren’t just interests; they’re practices that keep me grounded and curious. They’ve shaped how I think, how I lead, and how I build. I’m always open to conversations about ambitious ideas, complex systems, and unconventional thinking. If that resonates, we’ll probably have a lot to talk about. <a href="mailto:deniz@dsfist.com">deniz@dsfist.com</a>
-        </p>
+            At his core, Deniz is driven by curiosity and a desire to make sense of complexity. He approaches challenges like composing music, blending structure with creativity to create something that resonates over time. This mindset allows him to navigate uncertainty, adapt to change, and lead with both vision and precision. For Deniz, success is not just about achieving outcomes but about building systems that continue to create value long after the initial idea takes shape.
+            </p>
 
         </section>
 
@@ -707,7 +796,7 @@
                     <img src="media/mxdicon.svg" alt="MXD Culture">
                 </div></a>
                 <h3>MXD Culture</h3>
-                <p>MXD is an fusion lifestyle brand that empowers subcultures by providing authentic products & service and fostering a supportive community that challenges mainstream superficiality.</p>
+                <p>MXD is an fusion lifestyle brand that empowers subcultures by providing authentic products & service. A supportive community that challenges mainstream superficiality.</p>
             </div>
         </div>
     </section>
@@ -789,7 +878,7 @@
                 </div>
                 <div class="project-info">
                     <div class="tag">Research Publication</div>
-                    <h3>Mastering Teamwork: Achieve & Maintains</h3>
+                    <h3>Mastering Teamwork: Achieve & Maintain</h3>
                     <p>Team Vision, 2025</p>
                 </div>
             </a>
@@ -910,6 +999,72 @@
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
     </section>
+
+
+    <div class="resources">
+        <h1>Articles & Highlights</h1>
+        <br>
+
+
+        <!-- - -->
+        <a class="row" href="https://www.vforhuman.org/articles/a-human-rights-imperative-in-the-age-of-technofeudalism" target="_blank" rel="noopener noreferrer">
+            <img src="https://images.squarespace-cdn.com/content/v1/65978dd6d5a07d4fcd43ef1f/1754022415860-OQCN4GL5DIDD2U4UG9S1/technofeudalism.png?format=2500w" alt="">
+            <div class="textBox">
+                <h2>A Human Rights Imperative in the Age of Technofeudalism</h2>
+                <h5>V FOR HUMAN Association <br>
+                    Author: Deniz Sulmaz <br>
+                    Article · 2025</h5>
+            </div>
+        </a>
+        <!-- - -->
+        <a class="row" href="https://drive.google.com/file/d/1rV52xVxXKSnHZ-9ZpyWZpoopRYm-h7sI/view?usp=sharing" target="_blank" rel="noopener noreferrer">
+            <img src="http://127.0.0.1:5500/media/7%20Teamwork.png" alt="">
+            <div class="textBox">
+                <h2>Mastering Teamwork: Achieve & Maintain</h2>
+                <h5>Team Vision <br>
+                    Advisor: Hannes S. Chopra <br>
+                    Publication · 2025</h5>
+            </div>
+        </a>
+        <!-- - -->
+        <a class="row" href="https://harbourspace.utcc.ac.th/blogs/artivism-radical-hope-exhibition-social-impact/" target="_blank" rel="noopener noreferrer">
+            <img src="https://wp-harbour.utcc.ac.th/%77%70%2d%63%6f%6e%74%65%6e%74/uploads/2025/05/HS-SEO-1-Blog-SEO-April-2025-Desktop-Size-min.png" alt="">
+            <div class="textBox">
+                <h2>Artivism: Radical Hope Exhibition — Collaborative Social Impact</h2>
+                <h5>Harbour.Space@UTCC <br>
+                    External Blog · 2025</h5>
+            </div>
+        </a>
+        <!-- - -->
+        <a class="row" href="https://harbourspace.utcc.ac.th/blogs/harbourspace-student-deniz-gsea-finals/" target="_blank" rel="noopener noreferrer">
+            <img src="https://wp-harbour.utcc.ac.th/%77%70%2d%63%6f%6e%74%65%6e%74/uploads/2025/04/HS-SEO-1-Blog-SEO-March-2025-Desktop-min.png" alt="">
+            <div class="textBox">
+                <h2>Harbour.Space Student Deniz Stands Out at GSEA Finals</h2>
+                <h5>Harbour.Space@UTCC <br>
+                    External Blog · 2025</h5>
+            </div>
+        </a>
+        <!-- - -->
+        <a class="row" href="https://www.youtube.com/watch?v=KfmIKjRrIRo&t=1475s&ab_channel=COINTURKTV" target="_blank" rel="noopener noreferrer">
+            <img src="https://img.youtube.com/vi/KfmIKjRrIRo/maxresdefault.jpg" alt="">
+            <div class="textBox">
+                <h2>DApp Ekosistemi ile Geleceği Yakalamak Mümkün mü?</h2>
+                <h5>CoinTurk <br>
+                    Youtube Video · 2022</h5>
+            </div>
+        </a>
+        <!-- - -->
+        <a class="row" href="https://medium.com/yaz%C4%B1l%C4%B1m-ve-bili%C5%9Fim-kul%C3%BCb%C3%BC/ak%C4%B1ll%C4%B1-s%C3%B6zle%C5%9Fmeler-ve-solidty-c01c8b8c9f0c" target="_blank" rel="noopener noreferrer">
+            <img src="https://miro.medium.com/v2/resize:fit:2000/format:webp/1*o042rZZ82pIaS0S5KrAQzQ.png" alt="">
+            <div class="textBox">
+                <h2>Akıllı Sözleşmeler ve Solidty</h2>
+                <h5>BAU Software & IT Club <br>
+                    Guest Writing · 2021</h5>
+            </div>
+        </a>
+
+    </div>
+
 
     <!-- Call to Action -->
     <div class="cta">
