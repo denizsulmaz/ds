@@ -1,25 +1,54 @@
-// Setup Three.js scene
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
-const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-const heroSection = document.querySelector('.hero');
-heroSection.appendChild(renderer.domElement);
-
-
-// Camera position
-camera.position.z = 800;
-
-// Mouse position in normalized device coordinates
-const mouse = new THREE.Vector2();
-const mouseSpeed = new THREE.Vector2();
-const lastMouse = new THREE.Vector2();
-const raycaster = new THREE.Raycaster();
-
-// Scene globals
-let time = 0;
+// Global utilities
 const noiseGenerator = new SimplexNoise();
+
+function isMobile() {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+}
+
+// Setup Three.js scene only if .hero container exists
+const heroSection = document.querySelector('.hero');
+if (heroSection) {
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  heroSection.appendChild(renderer.domElement);
+
+  // Camera position
+  camera.position.z = 800;
+
+  // Mouse position in normalized device coordinates
+  const mouse = new THREE.Vector2();
+  const mouseSpeed = new THREE.Vector2();
+  const lastMouse = new THREE.Vector2();
+  const raycaster = new THREE.Raycaster();
+
+  // Scene globals
+  let time = 0;
+  let timeStep = 0.001;
+  let targetTimeStep = 0.001;
+  const targetColor = new THREE.Color(0xffffff);
+
+  // Detect active page theme immediately from DOM class to avoid particle color flash on initialization
+  const body = document.body;
+  if (body.classList.contains('theme-music')) {
+    targetColor.set(0xffffff); // stark white
+    targetTimeStep = 0.0035;   // dynamic wavy currents
+    timeStep = 0.0035;
+  } else if (body.classList.contains('theme-professional')) {
+    targetColor.set(0xffffff); // stark white (all particles must be white)
+    targetTimeStep = 0.0001;   // static grid stability
+    timeStep = 0.0001;
+  } else if (body.classList.contains('theme-fist')) {
+    targetColor.set(0xffffff); // stark white
+    targetTimeStep = 0.0018;   // heavy slow drift
+    timeStep = 0.0018;
+  } else {
+    targetColor.set(0xffffff); // default white
+    targetTimeStep = 0.001;
+    timeStep = 0.001;
+  }
 
 // Create a field of particles
 const particleCount = isMobile() ? 5000 : 15000;
@@ -81,11 +110,14 @@ for (let i = 0; i < particleCount; i++) {
 particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 particleGeometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
 
-// Particle material with custom shader for more interesting visuals
+// Particle material with custom shader for dynamic coloring and soft rendering
 const particleMaterial = new THREE.ShaderMaterial({
   transparent: true,
   depthWrite: false,
   blending: THREE.AdditiveBlending,
+  uniforms: {
+    uColor: { value: new THREE.Color().copy(targetColor) }
+  },
   vertexShader: `
     attribute float size;
     varying float vDistance;
@@ -101,6 +133,7 @@ const particleMaterial = new THREE.ShaderMaterial({
     }
   `,
   fragmentShader: `
+    uniform vec3 uColor;
     varying float vDistance;
     varying float vSize;
     
@@ -116,8 +149,8 @@ const particleMaterial = new THREE.ShaderMaterial({
       float intensity = 1.0 - vDistance / 1200.0;
       intensity = clamp(intensity, 0.1, 1.0);
       
-      // Final color
-      gl_FragColor = vec4(1.0, 1.0, 1.0, strength * intensity);
+      // Final dynamic color
+      gl_FragColor = vec4(uColor, strength * intensity);
     }
   `
 });
@@ -159,16 +192,18 @@ window.addEventListener('mousemove', (event) => {
   lastMouse.y = mouse.y;
 });
 
-// Detect mobile devices for performance optimization
-function isMobile() {
-  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
-}
+// isMobile function moved to top level
 
 // Animation loop
 function animate() {
   requestAnimationFrame(animate);
   
-  time += 0.000;
+  // Smoothly update noise movement timestep based on current active segment
+  timeStep = THREE.MathUtils.lerp(timeStep, targetTimeStep, 0.05);
+  time += timeStep;
+
+  // Lerp particle color toward target color
+  particleMaterial.uniforms.uColor.value.lerp(targetColor, 0.05);
   
   // Update raycaster with mouse position
   raycaster.setFromCamera(mouse, camera);
@@ -195,9 +230,6 @@ function animate() {
   
   for (let i = 0; i < particleCount; i++) {
     const i3 = i * 3;
-    
-    // Base autonomous movement
-    const phase = particlePhases[i];
     
     // Add some perlin noise to movement
     const px = positions[i3] * 0.01;
@@ -244,20 +276,6 @@ function animate() {
       particleVelocities[i3 + 1] += directionY * force * 0.3;
       particleVelocities[i3 + 2] += directionZ * force * 0.3;
     }
-    
-    // Attraction to original position (very subtle)
-    const origX = originalPositions[i3];
-    const origY = originalPositions[i3 + 1];
-    const origZ = originalPositions[i3 + 2];
-    
-    const dxOrig = origX - positions[i3];
-    const dyOrig = origY - positions[i3 + 1];
-    const dzOrig = origZ - positions[i3 + 2];
-    
-    // Very gentle pull towards original position
-    // particleVelocities[i3] += dxOrig * 0.0005;
-    // particleVelocities[i3 + 1] += dyOrig * 0.0005;
-    // particleVelocities[i3 + 2] += dzOrig * 0.0005;
   }
   
   // Subtle camera movement
@@ -274,18 +292,19 @@ function animate() {
 
 // Start animation
 animate();
-
-
+}
 
 // Letter changes in the header
-
-
 document.addEventListener('DOMContentLoaded', () => {
   const heading = document.getElementById('animated-heading');
-  const originalText = heading.textContent;
+  if (!heading) return;
+
+  // Split name characters only (leaving subtitles un-split to preserve HTML layout)
+  const animTarget = heading.querySelector('.name-split') || heading;
+  const originalText = animTarget.textContent.trim();
   
-  // Clear the heading content
-  heading.innerHTML = '';
+  // Clear the target content
+  animTarget.innerHTML = '';
   
   // Split text into individual span elements
   for (let i = 0; i < originalText.length; i++) {
@@ -299,17 +318,17 @@ document.addEventListener('DOMContentLoaded', () => {
           letter.dataset.alternatives = generateAlternatives(originalText[i]);
       }
       
-      heading.appendChild(letter);
+      animTarget.appendChild(letter);
   }
   
   // Tracking current animations
   let currentlyAnimating = 0;
   const MAX_ANIMATIONS = 1; // Maximum concurrent animations allowed
   let lastAnimationTime = 0; // Track the last time an animation started
-  const ANIMATION_DELAY = 1500; // 0.3s delay between animations
+  const ANIMATION_DELAY = 1500; // 1.5s delay between animations
   
   // Add event listeners
-  const letters = document.querySelectorAll('.letter');
+  const letters = animTarget.querySelectorAll('.letter');
   
   // Random animation trigger
   setInterval(() => {
@@ -336,8 +355,6 @@ document.addEventListener('DOMContentLoaded', () => {
           letter.addEventListener('mouseenter', () => {
               if (!letter.dataset.animating) {
                   animateLetter(letter, true);
-                  // Don't increment currentlyAnimating for hover
-                  // Don't update lastAnimationTime for hover animations
               }
           });
       }
@@ -377,7 +394,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const randomIndex = Math.floor(Math.random() * alternatives.length);
           letterElement.textContent = alternatives[randomIndex];
           iterations++;
-      }, 150); // Each change lasts 150ms, total animation time = 450ms (less than 0.7s)
+      }, 150); // Each change lasts 150ms
   }
 });
 
@@ -398,3 +415,198 @@ function generateAlternatives(character) {
   
   return alternatives;
 }
+
+// Awwwards Music Player State & UI Controller Logic
+document.addEventListener('DOMContentLoaded', () => {
+  const isMusicPage = document.body.classList.contains('page-music');
+  if (!isMusicPage) return;
+
+  const tracks = [
+    { title: "Sardaana", previewUrl: "https://p.scdn.co/mp3-preview/25622ad72e583c0e2265d1c8f0262dcd29fe5322" }, // placeholder audio preview
+    { title: "Lacrima Maris", previewUrl: "https://p.scdn.co/mp3-preview/25622ad72e583c0e2265d1c8f0262dcd29fe5322" },
+    { title: "Puppet Face", previewUrl: "https://p.scdn.co/mp3-preview/93393c2bc5e782be4c3c10ff8e578d11a9c8a29f" },
+    { title: "We Ain't Wasting Any Time", previewUrl: "https://p.scdn.co/mp3-preview/7859a4d991f6385abc2a32381d064a1a72bc8a51" },
+    { title: "Promise", previewUrl: "https://p.scdn.co/mp3-preview/3c99b2eef822558484556f01c3c0d7a8fe94f4b5" },
+    { title: "November", previewUrl: "https://p.scdn.co/mp3-preview/b5ebceda015a05ee7a7aa761ff165cfb80078e18" }
+  ];
+
+  const playerStates = [
+    { isPlaying: false, currentTimeSeconds: 0, progress: 0, bars: [], audio: null },
+    { isPlaying: false, currentTimeSeconds: 0, progress: 0, bars: [], audio: null },
+    { isPlaying: false, currentTimeSeconds: 0, progress: 0, bars: [], audio: null },
+    { isPlaying: false, currentTimeSeconds: 0, progress: 0, bars: [], audio: null },
+    { isPlaying: false, currentTimeSeconds: 0, progress: 0, bars: [], audio: null },
+    { isPlaying: false, currentTimeSeconds: 0, progress: 0, bars: [], audio: null }
+  ];
+
+  // Initialize visualizers and Audio elements for each track
+  const numVisualizerBars = 100;
+  playerStates.forEach((state, index) => {
+    // Visualizer container
+    const visContainer = document.getElementById(`visualizer-${index}`);
+    if (visContainer) {
+      visContainer.innerHTML = '';
+      for (let i = 0; i < numVisualizerBars; i++) {
+        const bar = document.createElement('div');
+        bar.className = 'visualizer-bar';
+        visContainer.appendChild(bar);
+        state.bars.push(bar);
+      }
+    }
+
+    // Audio binding
+    state.audio = new Audio(tracks[index].previewUrl);
+
+    // timeupdate
+    state.audio.addEventListener('timeupdate', () => {
+      if (!state.isPlaying) return;
+      state.currentTimeSeconds = Math.floor(state.audio.currentTime);
+      state.progress = (state.audio.currentTime / (state.audio.duration || 30)) * 100;
+      updateScrubberUI(index);
+    });
+
+    // ended
+    state.audio.addEventListener('ended', () => {
+      pauseTrack(index);
+      state.currentTimeSeconds = 0;
+      state.progress = 0;
+      updateScrubberUI(index);
+    });
+  });
+
+  // Track Play/Pause buttons
+  const playBtns = document.querySelectorAll('.play-btn');
+  playBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const trackIdx = parseInt(btn.dataset.trackIndex);
+      togglePlayback(trackIdx);
+    });
+  });
+
+  // Track Scrubbers
+  playerStates.forEach((state, index) => {
+    const scrubberContainer = document.querySelector(`.scrubber-track-${index}`);
+    if (scrubberContainer) {
+      const scrubberTrack = scrubberContainer.querySelector('.scrubber-track');
+      if (scrubberTrack) {
+        scrubberTrack.addEventListener('click', (e) => {
+          const rect = e.currentTarget.getBoundingClientRect();
+          const clickX = e.clientX - rect.left;
+          const width = rect.width;
+          const ratio = Math.max(0, Math.min(1, clickX / width));
+          
+          if (state.audio && state.audio.duration) {
+            state.audio.currentTime = ratio * state.audio.duration;
+            state.currentTimeSeconds = Math.floor(state.audio.currentTime);
+            state.progress = ratio * 100;
+            updateScrubberUI(index);
+          }
+        });
+      }
+    }
+  });
+
+  function togglePlayback(index) {
+    const state = playerStates[index];
+    if (state.isPlaying) {
+      pauseTrack(index);
+    } else {
+      // Pause all other playing tracks first to avoid overlapping playback
+      playerStates.forEach((otherState, otherIdx) => {
+        if (otherIdx !== index && otherState.isPlaying) {
+          pauseTrack(otherIdx);
+        }
+      });
+      playTrack(index);
+    }
+  }
+
+  function playTrack(index) {
+    const state = playerStates[index];
+    const playIcon = document.getElementById(`play-icon-${index}`);
+    const vinylContainer = document.getElementById(`vinyl-container-${index}`);
+
+    state.isPlaying = true;
+    if (playIcon) playIcon.className = 'fas fa-pause';
+    if (vinylContainer) vinylContainer.classList.add('playing');
+
+    if (state.audio) {
+      state.audio.play().catch(err => {
+        console.log("Audio playback blocked by autoplay policy or browser settings:", err);
+      });
+    }
+
+    requestAnimationFrame(() => updateVisualizer(index));
+  }
+
+  function pauseTrack(index) {
+    const state = playerStates[index];
+    const playIcon = document.getElementById(`play-icon-${index}`);
+    const vinylContainer = document.getElementById(`vinyl-container-${index}`);
+
+    state.isPlaying = false;
+    if (playIcon) playIcon.className = 'fas fa-play';
+    if (vinylContainer) vinylContainer.classList.remove('playing');
+
+    if (state.audio) {
+      state.audio.pause();
+    }
+
+    // Reset visualizer bars to flat state
+    state.bars.forEach(bar => {
+      bar.style.height = '5px';
+    });
+  }
+
+  function updateScrubberUI(index) {
+    const state = playerStates[index];
+    const fill = document.getElementById(`scrubber-fill-${index}`);
+    const currentLabel = document.getElementById(`current-time-${index}`);
+    
+    if (fill) fill.style.width = `${state.progress}%`;
+    if (currentLabel) currentLabel.textContent = formatTime(state.currentTimeSeconds);
+  }
+
+  function updateVisualizer(index) {
+    const state = playerStates[index];
+    if (!state.isPlaying) return;
+
+    const timeVal = Date.now() * 0.005;
+    state.bars.forEach((bar, barIdx) => {
+      // Generate two octaves of simplex noise for richer audio-like visuals
+      const n1 = noiseGenerator.noise2D(barIdx * 0.07, timeVal) * 0.7;
+      const n2 = noiseGenerator.noise2D(barIdx * 0.15, timeVal * 1.5) * 0.3;
+      const noiseVal = n1 + n2;
+      
+      // Map combined noise [-1, 1] to height [5, 45]
+      const height = Math.floor((noiseVal + 1) * 20) + 5;
+      bar.style.height = `${height}px`;
+    });
+
+    requestAnimationFrame(() => updateVisualizer(index));
+  }
+
+  function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+  }
+
+  // Intersection Observer for scroll stacked cards reveal animation
+  const cards = document.querySelectorAll('.track-card');
+  const cardObserverOptions = {
+    threshold: 0.25
+  };
+  
+  const cardObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      } else {
+        entry.target.classList.remove('visible');
+      }
+    });
+  }, cardObserverOptions);
+  
+  cards.forEach(card => cardObserver.observe(card));
+});

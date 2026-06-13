@@ -1,0 +1,221 @@
+{
+  "props": {
+    "pageProps": {
+      "state": {
+        "data": {
+          "entity": {
+            "type": "artist",
+            "name": "Deniz Sulmaz",
+            "uri": "spotify:artist:5HH58tdVUNRw2FDSa8xpGm",
+            "id": "5HH58tdVUNRw2FDSa8xpGm",
+            "title": "Deniz Sulmaz",
+            "subtitle": "Top tracks",
+            "releaseDate": null,
+            "duration": 0,
+            "isPlayable": true,
+            "playabilityReason": "PLAYABLE",
+            "isExplicit": false,
+            "hasVideo": false,
+            "relatedEntityUri": "spotify:artist:5HH58tdVUNRw2FDSa8xpGm",
+            "trackList": [
+              {
+                "uri": "spotify:track:3M9vOveHxknAZxoI2cEa8B",
+                "uid": "5ad264181114ab1b9cf0",
+                "title": "Lacrima Maris",
+                "subtitle": "Deniz Sulmaz",
+                "isExplicit": false,
+                "isNineteenPlus": false,
+                "contentRatings": {
+                  "labels": []
+                },
+                "duration": 137068,
+                "isPlayable": true,
+                "playabilityReason": "PLAYABLE",
+                "audioPreview": {
+                  "format": "MP3_96",
+                  "url": "https://p.scdn.co/mp3-preview/25622ad72e583c0e2265d1c8f0262dcd29fe5322"
+                },
+                "entityType": "track"
+              },
+              {
+                "uri": "spotify:track:0f7nMLUf6fI2pm7BC8f5FN",
+                "uid": "2e5ab84769ac46cc62aa",
+                "title": "We Ain't Wasting Any Time",
+                "subtitle": "Deniz Sulmaz",
+                "isExplicit": false,
+                "isNineteenPlus": false,
+                "contentRatings": {
+                  "labels": []
+                },
+                "duration": 128470,
+                "isPlayable": true,
+                "playabilityReason": "PLAYABLE",
+                "audioPreview": {
+                  "format": "MP3_96",
+                  "url": "https://p.scdn.co/mp3-preview/7859a4d991f6385abc2a32381d064a1a72bc8a51"
+                },
+                "entityType": "track"
+              },
+              {
+                "uri": "spotify:track:02HNWF9nn0ut8zz2du9Q4m",
+                "uid": "82797f736acf8f3b4362",
+                "title": "Puppet Face",
+                "subtitle": "Deniz Sulmaz",
+                "isExplicit": false,
+                "isNineteenPlus": false,
+                "contentRatings": {
+                  "labels": []
+                },
+                "duration": 156250,
+                "isPlayable": true,
+                "playabilityReason": "PLAYABLE",
+                "audioPreview": {
+                  "format": "MP3_96",
+                  "url": "https://p.scdn.co/mp3-preview/93393c2bc5e782be4c3c10ff8e578d11a9c8a29f"
+                },
+                "entityType": "track"
+              },
+              {
+                "uri": "spotify:track:5sQH0w3TtZlbwTE7SfAFCT",
+                "uid": "a3453084287d4cf36200",
+                "title": "Promise",
+                "subtitle": "Deniz Sulmaz",
+                "isExplicit": false,
+                "isNineteenPlus": false,
+                "contentRatings": {
+                  "labels": []
+                },
+                "duration": 141546,
+                "isPlayable": true,
+                "playabilityReason": "PLAYABLE",
+                "audioPreview": {
+                  "format": "MP3_96",
+                  "url": "https://p.scdn.co/mp3-preview/3c99b2eef822558484556f01c3c0d7a8fe94f4b5"
+                },
+                "entityType": "track"
+              },
+              {
+                "uri": "spotify:track:7tBqegGuV2XUi21npc863r",
+                "uid": "5572377ddd9da8030636",
+                "title": "November",
+                "subtitle": "Deniz Sulmaz",
+                "isExplicit": false,
+                "isNineteenPlus": false,
+                "contentRatings": {
+                  "labels": []
+                },
+                "duration": 195056,
+                "isPlayable": true,
+                "playabilityReason": "PLAYABLE",
+                "audioPreview": {
+                  "format": "MP3_96",
+                  "url": "https://p.scdn.co/mp3-preview/b5ebceda015a05ee7a7aa761ff165cfb80078e18"
+                },
+                "entityType": "track"
+              }
+            ],
+            "visualIdentity": {
+              "backgroundBase": {
+                "alpha": 255,
+                "blue": 83,
+                "green": 83,
+                "red": 83
+              },
+              "backgroundTintedBase": {
+                "alpha": 255,
+                "blue": 51,
+                "green": 51,
+                "red": 51
+              },
+              "textBase": {
+                "alpha": 255,
+                "blue": 255,
+                "green": 255,
+                "red": 255
+              },
+              "textBrightAccent": {
+                "alpha": 255,
+                "blue": 255,
+                "green": 255,
+                "red": 255
+              },
+              "textSubdued": {
+                "alpha": 255,
+                "blue": 205,
+                "green": 205,
+                "red": 205
+              },
+              "image": [
+                {
+                  "url": "https://image-cdn-fa.spotifycdn.com/image/ab6761610000517472a8f7e757153e3bc396e8ad",
+                  "maxHeight": 320,
+                  "maxWidth": 320
+                },
+                {
+                  "url": "https://image-cdn-fa.spotifycdn.com/image/ab6761610000e5eb72a8f7e757153e3bc396e8ad",
+                  "maxHeight": 640,
+                  "maxWidth": 640
+                },
+                {
+                  "url": "https://image-cdn-fa.spotifycdn.com/image/ab6761610000f17872a8f7e757153e3bc396e8ad",
+                  "maxHeight": 160,
+                  "maxWidth": 160
+                }
+              ]
+            }
+          },
+          "embeded_entity_uri": "spotify:artist:5HH58tdVUNRw2FDSa8xpGm",
+          "defaultAudioFileObject": {
+            "passthrough": "NONE"
+          }
+        },
+        "settings": {
+          "rtl": false,
+          "session": {
+            "accessToken": "BQAv1zq876db3r5-7BdRVq5LWtED5QVhv0SlAVVN9lsXxritopLaN5LjiVDKos--Q-B-pi4LaU_bRyxg__2W3nGQelnG1ln6qNXrwqsNo1UtYoDbvHibqI78L0E1g8-4Sl_E0uLln23V",
+            "accessTokenExpirationTimestampMs": 1781348350425,
+            "isAnonymous": true
+          },
+          "clientId": "ab9ad0d96a624805a7d51e8868df1f97",
+          "entityContext": "artist",
+          "isMobile": false,
+          "isSafari": false,
+          "isIOS": false,
+          "isTablet": false,
+          "isDarkMode": false
+        },
+        "machineState": {
+          "initialized": false,
+          "showOverflowMenu": false,
+          "playbackMode": "unknown",
+          "currentPreviewTrackIndex": 0,
+          "platformSupportsEncryptedContent": false
+        }
+      },
+      "config": {
+        "correlationId": "5946a478ea713dc9ee638268302a7d34",
+        "strings": {
+          "en": {
+            "translation": {}
+          }
+        },
+        "locale": "en",
+        "clientId": "ab9ad0d96a624805a7d51e8868df1f97",
+        "restrictionId": ""
+      },
+      "_sentryTraceData": "5d4a0673528741c1ac6773472f9379a2-db341498776d9abc-0",
+      "_sentryBaggage": "sentry-environment=production,sentry-release=c84433002701f01ffd58a1942b837809dbaa78dd,sentry-public_key=4cc707ab12ea4779b417479c0550a5cb,sentry-trace_id=5d4a0673528741c1ac6773472f9379a2,sentry-org_id=22381,sentry-sampled=false,sentry-sample_rand=0.6315826337580384,sentry-sample_rate=0"
+    },
+    "__N_SSP": true
+  },
+  "page": "/artist/[id]",
+  "query": {
+    "id": "5HH58tdVUNRw2FDSa8xpGm"
+  },
+  "buildId": "04137497-8dac-45b7-bffa-e090ab0b3b7c",
+  "assetPrefix": "https://embed-cdn.spotifycdn.com",
+  "isFallback": false,
+  "isExperimentalCompile": false,
+  "gssp": true,
+  "scriptLoader": []
+}
