@@ -197,6 +197,7 @@
             height: 140px;
             border-radius: 50%;
             margin-bottom: 1rem;
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -208,8 +209,10 @@
         }
 
         .brand-circle img {
-            max-width: 60%;
-            max-height: 60%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
         .brand:nth-child(1) .brand-circle {
