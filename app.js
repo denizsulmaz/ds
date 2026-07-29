@@ -22,7 +22,6 @@ if (heroSection) {
   const mouse = new THREE.Vector2();
   const mouseSpeed = new THREE.Vector2();
   const lastMouse = new THREE.Vector2();
-  const raycaster = new THREE.Raycaster();
 
   // Scene globals
   let time = 0;
@@ -58,6 +57,7 @@ const sizes = new Float32Array(particleCount);
 const originalPositions = new Float32Array(particleCount * 3);
 const particleVelocities = new Float32Array(particleCount * 3);
 const particlePhases = new Float32Array(particleCount);
+const seeds = new Float32Array(particleCount);
 
 // Create particles with initial positions
 for (let i = 0; i < particleCount; i++) {
@@ -104,11 +104,15 @@ for (let i = 0; i < particleCount; i++) {
   particlePhases[i] = Math.random() * Math.PI * 2;
   
   // Varied sizes for depth feeling
-  sizes[i] = 1.5 + Math.random() * 3;
+  sizes[i] = 3 + Math.random() * 5.5;
+
+  // Per-particle seed drives twinkle offset so the field never pulses in unison
+  seeds[i] = Math.random();
 }
 
 particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 particleGeometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+particleGeometry.setAttribute('seed', new THREE.BufferAttribute(seeds, 1));
 
 // Particle material with custom shader for dynamic coloring and soft rendering
 const particleMaterial = new THREE.ShaderMaterial({
@@ -116,41 +120,64 @@ const particleMaterial = new THREE.ShaderMaterial({
   depthWrite: false,
   blending: THREE.AdditiveBlending,
   uniforms: {
-    uColor: { value: new THREE.Color().copy(targetColor) }
+    uColor: { value: new THREE.Color().copy(targetColor) },
+    uTime: { value: 0 },
+    uMouse: { value: new THREE.Vector3(0, 0, 0) },
+    uPulse: { value: 0 },
+    uPulseRadius: { value: 0 },
+    uOpacity: { value: 1 }
   },
   vertexShader: `
     attribute float size;
+    attribute float seed;
+
+    uniform float uTime;
+    uniform vec3 uMouse;
+    uniform float uPulse;
+    uniform float uPulseRadius;
+
     varying float vDistance;
-    varying float vSize;
-    
+    varying float vGlow;
+
     void main() {
       vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
       vDistance = length(mvPosition.xyz);
-      vSize = size;
-      
-      gl_PointSize = size * (300.0 / vDistance);
+
+      // Proximity to the cursor lights particles up
+      float toMouse = distance(position, uMouse);
+      float near = 1.0 - smoothstep(0.0, 300.0, toMouse);
+
+      // Expanding sonar ring fired on click
+      float ring = 1.0 - smoothstep(0.0, 110.0, abs(toMouse - uPulseRadius));
+      vGlow = max(near, ring * uPulse);
+
+      // Independent twinkle per particle
+      float twinkle = 0.78 + 0.22 * sin(uTime * 1.8 + seed * 6.2831);
+
+      gl_PointSize = size * (300.0 / vDistance) * twinkle * (1.0 + vGlow * 1.9);
       gl_Position = projectionMatrix * mvPosition;
     }
   `,
   fragmentShader: `
     uniform vec3 uColor;
+    uniform float uOpacity;
+
     varying float vDistance;
-    varying float vSize;
-    
+    varying float vGlow;
+
     void main() {
-      // Calculate distance from center of point
-      vec2 center = gl_PointCoord - vec2(0.5);
-      float dist = length(center);
-      
-      // Soft circular particle with falloff at edges
-      float strength = 1.0 - smoothstep(0.3, 0.5, dist);
-      
-      // Distance-based intensity and fade
-      float intensity = 1.0 - vDistance / 1200.0;
-      intensity = clamp(intensity, 0.1, 1.0);
-      
-      // Final dynamic color
-      gl_FragColor = vec4(uColor, strength * intensity);
+      float dist = length(gl_PointCoord - vec2(0.5));
+
+      // Hard core with a soft halo around it reads sharper than a single falloff
+      float core = 1.0 - smoothstep(0.0, 0.2, dist);
+      float halo = 1.0 - smoothstep(0.14, 0.5, dist);
+      float strength = core + halo * 0.42;
+
+      // Depth fade
+      float intensity = clamp(1.0 - vDistance / 1300.0, 0.06, 1.0);
+
+      float alpha = strength * intensity * uOpacity * (0.62 + 0.9 * vGlow);
+      gl_FragColor = vec4(uColor, alpha);
     }
   `
 });
@@ -158,17 +185,11 @@ const particleMaterial = new THREE.ShaderMaterial({
 const particleSystem = new THREE.Points(particleGeometry, particleMaterial);
 scene.add(particleSystem);
 
-// Create visual effects for mouse interaction (fixed size sphere)
-const mouseEffectGeometry = new THREE.SphereGeometry(1, 32, 32);
-const mouseEffectMaterial = new THREE.MeshBasicMaterial({
-  color: 0xffffff,
-  transparent: false,
-  opacity: 0
-});
-const mouseEffect = new THREE.Mesh(mouseEffectGeometry, mouseEffectMaterial);
-scene.add(mouseEffect);
-mouseEffect.visible = true;
-mouseEffect.scale.set(1, 1, 1); // Fixed size sphere
+// Cursor position projected into the particle field, and the click shockwave state
+const mouseWorld = new THREE.Vector3(0, 0, 0);
+const pointerRay = new THREE.Vector3();
+let pointerActive = false;
+let pulseProgress = 1; // 1 = spent
 
 // Handle window resize
 window.addEventListener('resize', () => {
@@ -190,7 +211,35 @@ window.addEventListener('mousemove', (event) => {
   
   lastMouse.x = mouse.x;
   lastMouse.y = mouse.y;
+  pointerActive = true;
 });
+
+window.addEventListener('mouseleave', () => {
+  pointerActive = false;
+});
+
+// Click fires a shockwave ring through the field
+function firePulse() {
+  pulseProgress = 0;
+}
+
+heroSection.addEventListener('pointerdown', firePulse);
+
+// Touch devices steer the field by dragging
+window.addEventListener('touchmove', (event) => {
+  const touch = event.touches[0];
+  if (!touch) return;
+  mouse.x = (touch.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(touch.clientY / window.innerHeight) * 2 + 1;
+  pointerActive = true;
+}, { passive: true });
+
+// Project the cursor onto the z = 0 plane of the field
+function updateMouseWorld() {
+  pointerRay.set(mouse.x, mouse.y, 0.5).unproject(camera).sub(camera.position).normalize();
+  const travel = pointerRay.z === 0 ? 0 : -camera.position.z / pointerRay.z;
+  mouseWorld.copy(camera.position).addScaledVector(pointerRay, travel);
+}
 
 // isMobile function moved to top level
 
@@ -205,84 +254,112 @@ function animate() {
   // Lerp particle color toward target color
   particleMaterial.uniforms.uColor.value.lerp(targetColor, 0.05);
   
-  // Update raycaster with mouse position
-  raycaster.setFromCamera(mouse, camera);
-  
-  // Get 3D point at cursor
-  const intersects = raycaster.intersectObjects([particleSystem]);
-  
-  // Update mouse effect position
-  const mouseWorldPosition = new THREE.Vector3();
-  if (intersects.length > 0) {
-    mouseWorldPosition.copy(intersects[0].point);
+  // Cursor parallax: the camera leans toward the pointer, then drifts on its own
+  const targetCamX = Math.sin(time * 0.2) * 50 + (pointerActive ? mouse.x * 130 : 0);
+  const targetCamY = Math.cos(time * 0.3) * 30 + (pointerActive ? mouse.y * 85 : 0);
+  camera.position.x = THREE.MathUtils.lerp(camera.position.x, targetCamX, 0.045);
+  camera.position.y = THREE.MathUtils.lerp(camera.position.y, targetCamY, 0.045);
+  camera.lookAt(0, 0, 0);
+
+  // Project the cursor into the field (cheap plane hit, no raycast against 15k points)
+  updateMouseWorld();
+  particleMaterial.uniforms.uMouse.value.copy(mouseWorld);
+  particleMaterial.uniforms.uTime.value = time * 100;
+
+  // Advance the click shockwave
+  if (pulseProgress < 1) {
+    pulseProgress = Math.min(1, pulseProgress + 0.013);
+    particleMaterial.uniforms.uPulse.value = Math.pow(1 - pulseProgress, 1.6);
+    particleMaterial.uniforms.uPulseRadius.value = pulseProgress * 1100;
   } else {
-    // Default position if no intersection
-    mouseWorldPosition.set(mouse.x * 90, mouse.y * 90, 0);
+    particleMaterial.uniforms.uPulse.value = 0;
   }
-  
-  // Update visual mouse effect position (but keep size fixed)
-  mouseEffect.position.copy(mouseWorldPosition);
-  
+
+  // The field thins out and expands as the hero scrolls away
+  const heroHeight = heroSection.offsetHeight || window.innerHeight;
+  const scrolled = Math.min(1, (window.scrollY || 0) / heroHeight);
+  particleMaterial.uniforms.uOpacity.value = Math.max(0, 1 - scrolled * 1.15);
+  particleSystem.scale.setScalar(1 + scrolled * 0.32);
+  particleSystem.rotation.z = scrolled * 0.22;
+
+  // Skip the simulation entirely once the field is invisible
+  if (particleMaterial.uniforms.uOpacity.value <= 0.001) {
+    renderer.render(scene, camera);
+    return;
+  }
+
   // Update particle positions
   const positions = particleGeometry.attributes.position.array;
-  const influenceRadius = 200;
-  const influenceStrength = 15;
-  
+  const influenceRadius = 300;
+  const influenceStrength = 16;
+  const pulseRadius = particleMaterial.uniforms.uPulseRadius.value;
+  const pulseForce = particleMaterial.uniforms.uPulse.value * 9;
+
   for (let i = 0; i < particleCount; i++) {
     const i3 = i * 3;
-    
-    // Add some perlin noise to movement
+
+    // Curl-ish drift from the noise field
     const px = positions[i3] * 0.01;
     const py = positions[i3 + 1] * 0.01;
     const pz = positions[i3 + 2] * 0.01;
-    
+
     const noise1 = noiseGenerator.noise3D(px, py, time) * 0.3;
     const noise2 = noiseGenerator.noise3D(px, time, pz) * 0.3;
     const noise3 = noiseGenerator.noise3D(time, py, pz) * 0.3;
-    
-    // Autonomous movement
+
     particleVelocities[i3] += noise1 * 0.05;
     particleVelocities[i3 + 1] += noise2 * 0.05;
     particleVelocities[i3 + 2] += noise3 * 0.05;
-    
-    // Apply velocity with damping
+
+    // Spring back toward the original lattice, so the field always reforms
+    particleVelocities[i3] += (originalPositions[i3] - positions[i3]) * 0.0022;
+    particleVelocities[i3 + 1] += (originalPositions[i3 + 1] - positions[i3 + 1]) * 0.0022;
+    particleVelocities[i3 + 2] += (originalPositions[i3 + 2] - positions[i3 + 2]) * 0.0022;
+
+    // Cursor force field: push away radially, and swirl around the pointer
+    const dx = positions[i3] - mouseWorld.x;
+    const dy = positions[i3 + 1] - mouseWorld.y;
+    const dz = positions[i3 + 2] - mouseWorld.z;
+    const distance = Math.sqrt(dx * dx + dy * dy + dz * dz) || 0.0001;
+
+    if (distance < influenceRadius) {
+      const falloff = 1 - distance / influenceRadius;
+      const force = falloff * influenceStrength;
+      const nx = dx / distance;
+      const ny = dy / distance;
+      const nz = dz / distance;
+
+      particleVelocities[i3] += nx * force * 0.16;
+      particleVelocities[i3 + 1] += ny * force * 0.16;
+      particleVelocities[i3 + 2] += nz * force * 0.16;
+
+      // Tangential component (cross product with the view axis) gives the vortex
+      const swirl = falloff * falloff * 0.9;
+      particleVelocities[i3] += -ny * swirl;
+      particleVelocities[i3 + 1] += nx * swirl;
+    }
+
+    // Shockwave: a thin shell of outward impulse travelling through the field
+    if (pulseForce > 0.01) {
+      const shell = Math.abs(distance - pulseRadius);
+      if (shell < 130) {
+        const hit = (1 - shell / 130) * pulseForce;
+        particleVelocities[i3] += (dx / distance) * hit;
+        particleVelocities[i3 + 1] += (dy / distance) * hit;
+        particleVelocities[i3 + 2] += (dz / distance) * hit;
+      }
+    }
+
+    // Integrate with damping
     positions[i3] += particleVelocities[i3];
     positions[i3 + 1] += particleVelocities[i3 + 1];
     positions[i3 + 2] += particleVelocities[i3 + 2];
-    
-    particleVelocities[i3] *= 0.98;
-    particleVelocities[i3 + 1] *= 0.98;
-    particleVelocities[i3 + 2] *= 0.98;
-    
-    // Mouse influence
-    const px2 = positions[i3];
-    const py2 = positions[i3 + 1];
-    const pz2 = positions[i3 + 2];
-    
-    const dx = px2 - mouseWorldPosition.x;
-    const dy = py2 - mouseWorldPosition.y;
-    const dz = pz2 - mouseWorldPosition.z;
-    
-    const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
-    
-    if (distance < influenceRadius) {
-      // Repulsion force
-      const force = (1 - distance / influenceRadius) * influenceStrength;
-      const directionX = dx / distance || 0;
-      const directionY = dy / distance || 0;
-      const directionZ = dz / distance || 0;
-      
-      particleVelocities[i3] += directionX * force * 0.3;
-      particleVelocities[i3 + 1] += directionY * force * 0.3;
-      particleVelocities[i3 + 2] += directionZ * force * 0.3;
-    }
+
+    particleVelocities[i3] *= 0.955;
+    particleVelocities[i3 + 1] *= 0.955;
+    particleVelocities[i3 + 2] *= 0.955;
   }
-  
-  // Subtle camera movement
-  camera.position.x = Math.sin(time * 0.2) * 50;
-  camera.position.y = Math.cos(time * 0.3) * 30;
-  camera.lookAt(0, 0, 0);
-  
+
   // Update particle geometry
   particleGeometry.attributes.position.needsUpdate = true;
   
@@ -292,6 +369,11 @@ function animate() {
 
 // Start animation
 animate();
+}
+
+// Whitespace check that also catches the non-breaking space used between name and surname
+function isSpaceChar(char) {
+  return !char || !char.trim();
 }
 
 // Letter changes in the header
@@ -313,9 +395,11 @@ document.addEventListener('DOMContentLoaded', () => {
       letter.textContent = originalText[i];
       letter.dataset.original = originalText[i];
       
-      // Generate alternative letters for each character
-      if (originalText[i] !== ' ') {
+      // Spaces (regular or non-breaking) stay untouched by the scramble effect
+      if (!isSpaceChar(originalText[i])) {
           letter.dataset.alternatives = generateAlternatives(originalText[i]);
+      } else {
+          letter.classList.add('is-space');
       }
       
       animTarget.appendChild(letter);
@@ -336,8 +420,8 @@ document.addEventListener('DOMContentLoaded', () => {
       // Check if we've waited long enough since the last animation started
       if (currentlyAnimating < MAX_ANIMATIONS && (now - lastAnimationTime >= ANIMATION_DELAY)) {
           // Get all non-animating letters
-          const inactiveLetters = Array.from(letters).filter(letter => 
-              !letter.dataset.animating && letter.textContent !== ' ');
+          const inactiveLetters = Array.from(letters).filter(letter =>
+              !letter.dataset.animating && !isSpaceChar(letter.textContent));
           
           if (inactiveLetters.length > 0) {
               // Choose a random letter to animate
@@ -351,7 +435,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Hover animation
   letters.forEach(letter => {
-      if (letter.textContent !== ' ') {
+      if (!isSpaceChar(letter.textContent)) {
           letter.addEventListener('mouseenter', () => {
               if (!letter.dataset.animating) {
                   animateLetter(letter, true);
@@ -595,7 +679,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Intersection Observer for scroll stacked cards reveal animation
   const cards = document.querySelectorAll('.track-card');
   const cardObserverOptions = {
-    threshold: 0.25
+    // Low threshold: on narrow screens the cards stack far taller than the viewport,
+    // so a high ratio could never be met and the content would stay hidden.
+    threshold: 0.08
   };
   
   const cardObserver = new IntersectionObserver((entries) => {

@@ -3,735 +3,689 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deniz Sulmaz — Merhaba!</title>
+    <title>Deniz Sulmaz · Corporate</title>
     <link rel="shortcut icon" href="media/icon.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="style.css?v=1.3">
     <style>
-        /* Reset & Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Outfit', sans-serif;
-        }
-
-        body {
-            background-color: #fff;
-            color: #000;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        /* Navigation */
-        nav {
-            width: calc(100%-8%);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 1.85%;
-            margin: 0 4%;
-            color: #fff;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            border-bottom-left-radius: 20px;
-            border-bottom-right-radius: 20px;
-        }
-
-      
-        .menu {
-            background-color: black;
-            display: flex;
-            gap: 2rem;
-            padding: 1rem 3%;
-            border-radius: 50px;
-        }
-
-        .menu a {
-            transition: opacity 0.3s;
-        }
-
-        .menu a:hover {
-            opacity: 0.7;
-        }
-
-        .menu-toggle {
-            display: none;
-            cursor: pointer;
-            font-size: 1.5rem;
-            z-index: 1001;
-        }
-        ::selection{
-            background-color: #161515;
-            color: white;
-            filter: invert(1);
-        }
-        /* Hero Section - Only Name */
-        .hero {
-            height: 98vh;
-            border-bottom-right-radius: 50px;
-            position: relative;
-            background-color: #000;
-            color: #fff;
-            padding: 0 5%;
-            text-align: center;
-            overflow:hidden !important;
-            cursor: url('media/crcl.ico'), default;
-            /* cursor: none;  */
-        }
-        .hero canvas {
-            z-index: 1;
-            width: 100% !important;
-            height: 98vh;
-            overflow: hidden !important;
-            z-index: 1;
-            position: absolute;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-        }
-        .hero .canvasholder{
-            overflow: hidden;
-        }
-
-        .hero h1 {
-            z-index: 9;
-            position: absolute;
-            bottom: 20px;
-            font-size: 9.5rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            pointer-events: none;
-            display: block;
-        }
-        .hero{overflow: hidden !important;}
-
-        .letter {
-            padding: 2px;
-            transition: background-color 0.3s ease;
-        }
-        
-        .letter:hover, .letter.animating {
-            background-color: white;
-            color: black;
-        }
-        /* Intro Section */
-        .intro {
-            padding: 5rem 5% 0rem 5%;
+        /* ---------- Corporate page: white canvas, black for the strikes ---------- */
+        body.page-professional {
             background-color: #ffffff;
             color: #000000;
+        }
+
+        /* ---------- Hero ---------- */
+        .hero {
+            height: 100vh;
+            height: 100svh;
             display: flex;
             align-items: flex-end;
-            justify-content: flex-end;
+            text-align: left;
+            /* no section padding: .hero-copy owns the gutter, so it matches the logo at 5% */
+            padding: 0;
         }
 
-        .intro p {
-            max-width: 32vw;
-            margin: 0 5rem;
-            font-size: 1.4rem;
-            font-weight: 600;
-            text-align: right;
-            line-height: 1.2;
+        .hero canvas {
+            height: 100%;
         }
 
-        /* About Section */
-        .about {
-            padding: 7rem 5% 5rem 5%;
-            background-color: #fff;
+        .hero-copy {
+            position: relative;
+            z-index: 9;
+            width: 100%;
+            /* bottom matches .hero-scroll; right gutter keeps them from touching */
+            padding: 0 calc(5% + 5rem) 9vh 5%;
+            pointer-events: none;
         }
 
-        .about h2 {
-            font-size: 1.8rem;
-            margin-bottom: 2rem;
+        /* Starting size only: fitHeadline() measures and enlarges this to fill the line */
+        .hero h1 {
+            position: static;
+            bottom: auto;
+            font-size: 9.6vw;
+            line-height: 0.94;
+            letter-spacing: -0.03em;
+            white-space: nowrap;
+            text-shadow: none;
+            pointer-events: auto;
+            /* cancel the glyph side bearing + .letter padding so the D optically
+               lines up with the logo's left edge */
+            margin-left: calc(-0.065em - 2px);
         }
 
-        .about p {
-            max-width: 800px;
-            margin-bottom: 1rem;
-            line-height: 1.3;
-        }
-
-        /* Brands Section */
-        .brands {
-            padding: 5rem 5%;
-            background-color: #000;
-            color: #fff;
-            text-align: center;
-        }
-
-        .brands h2 {
-            font-size: 1.8rem;
-            margin-bottom: 3rem;
-        }
-
-        .brand-logos {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-            margin-bottom: 3rem;
-        }
-
-        .brand {
-            width: 16%;
-            text-align: center;
-            margin: 2rem 12px 0rem 12px;
+        /* Bottom edge lines up with the baseline of the name */
+        .hero-scroll {
+            position: absolute;
+            right: 5%;
+            bottom: 9vh;
+            z-index: 9;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            gap: 1rem;
+            font-size: 0.68rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #ffffff;
+            opacity: 0.4;
+            transition: opacity 0.4s ease;
+            writing-mode: vertical-rl;
         }
 
-        .brand-circle {
-            width: 140px;
-            height: 140px;
+        .hero-scroll:hover {
+            opacity: 1;
+        }
+
+        .hero-scroll span {
+            width: 1px;
+            height: 5rem;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0));
+            animation: scroll-pull 2.4s ease-in-out infinite;
+        }
+
+        @keyframes scroll-pull {
+            0%, 100% { transform: scaleY(0.4); transform-origin: top; opacity: 0.4; }
+            50% { transform: scaleY(1); transform-origin: top; opacity: 1; }
+        }
+
+        /* Custom cursor */
+        .cursor-dot,
+        .cursor-ring {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9999;
             border-radius: 50%;
-            margin-bottom: 1rem;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.3s ease;
+            mix-blend-mode: difference;
+            will-change: transform;
         }
 
-        .brand-circle:hover {
-            transform: scale(1.05);
+        .cursor-dot {
+            width: 7px;
+            height: 7px;
+            margin: -3.5px 0 0 -3.5px;
+            background-color: #ffffff;
         }
 
-        .brand-circle img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
+        .cursor-ring {
+            width: 38px;
+            height: 38px;
+            margin: -19px 0 0 -19px;
+            border: 1px solid rgba(255, 255, 255, 0.65);
+            transition: width 0.3s ease, height 0.3s ease, margin 0.3s ease, opacity 0.3s ease;
         }
 
-        .brand:nth-child(1) .brand-circle {
-            background-color: #f0f0f0;
-        }
-
-        .brand:nth-child(2) .brand-circle {
-            background-color: #3C0672;
-        }
-
-        .brand:nth-child(3) .brand-circle {
-            background-color: #D6B577;
-        }
-
-        .brand:nth-child(4) .brand-circle {
-            background-color: #000000;
-            border: white solid 2px;
-        }
-
-        .brand h3 {
-            font-size: 1.2rem;
-            letter-spacing: 1px;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .brand p {
-            font-size: 0.8rem;
-            opacity: 0.8;
-            font-weight: 300;
-        }
-
-        /* Projects Section */
-        .projects {
-            padding: 5rem 5%;
-            background-color: #fff;
-        }
-        .projects h2{
-            font-size: 1.8rem;
-            margin-bottom: 3rem;
-            text-align: center;
-        }
-
-        .project-info .tag {
-            font-size: 0.8rem;
-            margin-bottom: 0.5rem;
-            text-align: center;
+        .cursor-ring.is-hot {
+            width: 62px;
+            height: 62px;
+            margin: -31px 0 0 -31px;
             opacity: 0.5;
         }
 
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); /* Changed to 2 columns */
-            gap: 2rem;
+        @media (hover: none), (max-width: 768px) {
+            .cursor-dot,
+            .cursor-ring {
+                display: none;
+            }
         }
 
-        .project-card {
-            border-radius: 20px;
-            overflow: hidden;
+        /* Logo stays legible over both the black hero and the white page */
+        .logo-fixed rect {
+            fill: #000000;
+        }
+
+        .logo-fixed path {
+            fill: #ffffff;
+        }
+
+        .band {
+            width: 100%;
+        }
+
+        .band-dark {
             background-color: #000000;
-            transition: transform 0.3s;
+            color: #ffffff;
         }
 
-        .project-card:hover {
-            transform: translateY(-5px);
+        .shell {
+            max-width: 1360px;
+            margin: 0 auto;
+            padding: 0 8%;
         }
 
-        .project-image {
-            position: relative;
-            background-color: black;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .label {
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            opacity: 0.45;
+            margin-bottom: 2.5rem;
+            display: block;
         }
-        .project-image img{width: 100%;}
 
-        .project-info {
+        /* Rules: dark bands use light hairlines, white bands use dark ones */
+        .rule-light {
+            border-color: rgba(255, 255, 255, 0.18);
+        }
+
+        /* Reveal on scroll */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .reveal.in {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* ---------- Lead (white) ---------- */
+        /* NOTE: section spacing uses padding-top/bottom longhand on purpose.
+           A `padding` shorthand here would wipe out .shell's side gutters. */
+        .lead {
+            padding-top: 8rem;
+            padding-bottom: 4rem;
+        }
+
+        .lead {
             text-align: center;
-            padding: 1.5rem;
-            background-color: #000;
-            color: #fff;
         }
 
-        .project-info h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.7rem;
+        .lead p {
+            font-size: clamp(1.3rem, 2.2vw, 2rem);
+            font-weight: 500;
+            line-height: 1.4;
+            letter-spacing: -0.5px;
+            max-width: 44rem;
+            margin: 0 auto;
         }
 
-        .project-info p {
-            font-size: 1rem;
+        .lead p em {
+            font-style: normal;
+            font-weight: 800;
         }
 
-        /* Gallery Section */
-        .gallery {
-            margin-top: 10vh;
-            display: grid; 
-            grid-template-columns: 1fr 1fr 1fr 1fr; 
-            grid-template-rows: 35vh 35vh; 
-            gap: 0px 0px; 
-            grid-template-areas: 
-              ". . . ."
-              ". . . ."; 
+        .lead .aside {
+            margin: 2.5rem auto 0;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            max-width: 34rem;
+            opacity: 0.55;
         }
 
-        .gallery-item {
-            height: 100%;
-            background-color: #ddd;
-            position: relative;
+        /* ---------- Statement (black) ---------- */
+        .statement {
+            padding-top: 9rem;
+            padding-bottom: 9rem;
         }
 
-        .gallery-item img {
+        .statement-lines {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .statement-line {
+            display: grid;
+            grid-template-columns: 5rem 1fr;
+            gap: 2rem;
+            align-items: start;
+            padding: 3.2rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .statement-line .idx {
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            opacity: 0.35;
+            padding-top: 1.1rem;
+        }
+
+        .statement-line p {
+            font-size: clamp(1.4rem, 3.4vw, 3.1rem);
+            font-weight: 800;
+            letter-spacing: -1px;
+            line-height: 1.1;
+        }
+
+        /* ---------- Territory (white) ---------- */
+        .territory {
+            padding-top: 8rem;
+            padding-bottom: 8rem;
+        }
+
+        .territory-list {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.14);
+        }
+
+        .territory-row {
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 3rem;
+            align-items: baseline;
+            padding: 2.2rem 0;
+            border-top: 1px solid rgba(0, 0, 0, 0.14);
+        }
+
+        .territory-row h3 {
+            font-size: clamp(1.35rem, 2.6vw, 2.3rem);
+            font-weight: 700;
+            letter-spacing: -0.8px;
+            line-height: 1.1;
+            transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .territory-row p {
+            font-size: 1.15rem;
+            line-height: 1.6;
+            text-align: right;
+            white-space: nowrap;
+            opacity: 0;
+            transform: translateX(-8px);
+            transition: opacity 0.45s ease, transform 0.45s ease;
+        }
+
+        .territory-row:hover h3 {
+            transform: translateX(0.9rem);
+        }
+
+        .territory-row:hover p {
+            opacity: 0.55;
+            transform: none;
+        }
+
+        /* ---------- Plates (black, full-bleed drift) ---------- */
+        .plates {
+            overflow: hidden;
+            padding: 0;
+        }
+
+        .plates-track {
+            display: flex;
+            gap: 2px;
+            width: max-content;
+            animation: drift 70s linear infinite;
+        }
+
+        .plates:hover .plates-track {
+            animation-play-state: paused;
+        }
+
+        .plate {
+            width: 24vw;
+            height: 38vh;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .plate img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            overflow: hidden;
-            transition: 0.3s ease-in-out;
-        }
-        .gallery-item img:hover{
-            height: 115%;
+            filter: grayscale(1) contrast(1.05);
+            opacity: 0.45;
+            transition: opacity 0.6s ease, filter 0.6s ease, transform 0.9s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        /* Quotes Section */
-        .quotes {
-            padding: 5rem 5%;
-            background-color: #fff;
-            overflow: hidden;
-            position: relative;
+        .plate:hover img {
+            opacity: 1;
+            filter: grayscale(0);
+            transform: scale(1.05);
         }
 
-        .quotes h2 {
-            font-size: 1.8rem;
-            margin-bottom: 3rem;
-            text-align: center; /* Centered the headline */
+        @keyframes drift {
+            from { transform: translateX(0); }
+            to { transform: translateX(calc(-50% - 1px)); }
         }
 
-        .quotes-container {
-            position: relative;
-            max-width: 1200px;
-            margin: 0 auto;
-            overflow: hidden;
+        /* ---------- Voices (white) ---------- */
+        .voices {
+            padding-top: 8rem;
+            padding-bottom: 6rem;
         }
 
-        .swiper-quotes {
+        .voices-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0 5rem;
+        }
+
+        .voice {
+            padding: 2.8rem 0;
+            border-top: 1px solid rgba(0, 0, 0, 0.14);
+        }
+
+        .voice p {
+            font-size: clamp(1.05rem, 1.4vw, 1.3rem);
+            font-weight: 500;
+            line-height: 1.5;
+            letter-spacing: -0.3px;
+        }
+
+        .voice cite {
+            display: block;
+            margin-top: 1.4rem;
+            font-style: normal;
+            font-size: 0.78rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.45;
+            line-height: 1.7;
+        }
+
+        .voice cite strong {
+            font-weight: 800;
+            opacity: 1;
+        }
+
+        /* ---------- Writing & appearances (white) ---------- */
+        .writing {
+            padding-top: 4rem;
+            padding-bottom: 9rem;
+        }
+
+        .resources {
             width: 100%;
-            padding-bottom: 3rem;
-            overflow: visible;
         }
 
-        .quote-slide {
-            padding: 2rem 2rem 2rem 0;
-            text-align: left;
-        }
-
-        .quote-content {
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-            line-height: 1.2;
-        }
-
-        .quote-author {
-            font-weight: 600;
-        }
-        .quote-author i{
-            font-weight: 400;
-            opacity: 0.7;
-            font-size: 0.9rem;
-        }
-
-        .swiper-button-next,
-        .swiper-button-prev {
-            color: #000;
-        }
-
-        /* Add padding to ensure text doesn't overlap with navigation arrows */
-        .swiper-button-next {
-            right: 90px;
-        }
-
-        .swiper-button-prev {
-            left: 90px;
-            bottom: 2px;
-        }
-
-        /* Call to Action */
-        .cta {
-            background: linear-gradient(90deg, #2b0a4d 0%, #2e50cf 100%);
-            color: #fff;
-            padding: 6rem 5%;
-            text-align: center;
+        .resources .row {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-radius: 200px;
-            margin: 5rem auto;
-            margin-bottom: 15rem;
-            max-width: 1200px;
-        }
-
-        .cta-text {
-            max-width: 46%;
-            margin-left: 5%;
-            text-align: left;
-            flex: 1;
-        }
-
-        .cta-website {
-            width: 30%;
-            margin-right: 5%;
-            font-size: 2.2rem;
-            font-weight: 600;
-            transition: ease 0.4s;
-        }
-        .cta-website:hover{
-            text-shadow: 0px 0px 4px white;
-        }
-
-
-        /* Footer */
-        footer {
-            background-color: #000;
-            color: #fff;
-            padding: 4rem 5% 3rem;
-            text-align: center;
-        }
-
-        .footer-logo {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-top: 1rem;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 2.5rem;
-            font-weight: 200;
-            margin: 0.5rem 0 1.5rem 0;
-        }
-
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 3rem;
-        }
-
-        .social-icons a {
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            color: #000;
-            background-color: #ffffff;
-            transition: background-color 0.3s;
-        }
-
-        .social-icons a:hover {
-            background-color: #dcdada;
-        }
-
-        .copy{
-            margin-top: 1.5rem;
-            font-size: 12px;
-            opacity: 0.6;
-        }
-
-        /* Mobile Menu Overlay */
-        .mobile-menu-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #000;
-            z-index: 999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transform: translateY(-100%);
-            transition: transform 0.5s ease;
-        }
-
-        .mobile-menu-overlay.active {
-            transform: translateY(0);
-        }
-
-        .mobile-menu-items {
-            display: flex;
-            flex-direction: column;
+            align-items: stretch;
             gap: 2rem;
+            padding: 2.2rem 0;
+            border-top: 1px solid rgba(0, 0, 0, 0.14);
+        }
+
+        .resources .row:last-of-type {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.14);
+        }
+
+        .resources img {
+            width: 220px;
+            height: 124px;
+            object-fit: cover;
+            border-radius: 10px;
+            opacity: 0.9;
+            transition: opacity 0.45s ease;
+            flex-shrink: 0;
+        }
+
+        .resources .row:hover img {
+            opacity: 1;
+        }
+
+        .resources .textBox {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .resources h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: -0.4px;
+            line-height: 1.25;
+            transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .resources .row:hover h2 {
+            transform: translateX(0.6rem);
+        }
+
+        .resources h5 {
+            margin-top: 0.7rem;
+            font-size: 0.85rem;
+            font-weight: 400;
+            line-height: 1.6;
+            opacity: 0.5;
+        }
+
+        /* ---------- Contact (black, centered) ---------- */
+        .contact-block {
+            padding-top: 11rem;
+            padding-bottom: 11rem;
             text-align: center;
         }
 
-        .mobile-menu-items a {
-            font-size: 2.5rem;
-            font-weight: 600;
-            color: #fff;
-            transition: color 0.3s;
+        .contact-block .tick {
+            width: 1px;
+            height: 4rem;
+            background-color: rgba(255, 255, 255, 0.3);
+            margin: 0 auto 2.5rem;
         }
 
-        .mobile-menu-items a:hover {
-            color: #ccc;
-        }
-        .resources{
-            margin: auto 5vw;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        
-            margin: 5rem auto;
-            margin-bottom: 15rem;
-            max-width: 1200px;
-        }
-        .resources a{
-            box-shadow: 0 1px 20px rgba(28, 28, 28, 0.1);
-            border-radius: 18px;
-            margin-top: 5vh;
-            transition: 0.3s ease-in-out;
-        }
-        .resources a:hover{
-            opacity: 0.8;
-            margin-top: 4.6vh;
-            margin-bottom: 0.4vh;
-            transition: 0.5 ease-in-out;
-        }
-        .resources .row{
-            display: flex;
-            flex-direction: row;
-        }
-        .resources img{
-            width: 40%;
-            border-bottom-left-radius: 18px;
-            border-top-left-radius: 18px ;
-        }
-        .resources .textBox{
-            margin: auto 4%;
-            margin-right: 2%;
-        }
-        .resources h5 {
-            opacity: 0.6;
-            margin-top: 20px;
-            font-size: 1rem;
-            line-height: 160%;
+        .contact-block .label {
+            margin-bottom: 2rem;
         }
 
+        .contact-block .kicker {
+            font-size: clamp(1.3rem, 2.1vw, 1.9rem);
+            font-weight: 500;
+            line-height: 1.4;
+            letter-spacing: -0.4px;
+            max-width: 48ch;
+            margin: 0 auto 4.5rem;
+        }
 
+        .contact-mail {
+            display: inline-block;
+            position: relative;
+            font-size: clamp(1.3rem, 3vw, 2.4rem);
+            font-weight: 800;
+            letter-spacing: -1px;
+            line-height: 1;
+            padding-bottom: 0.5rem;
+            word-break: break-word;
+        }
 
+        .contact-mail::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: #ffffff;
+            transition: width 0.5s cubic-bezier(0.25, 1, 0.5, 1), left 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
 
+        .contact-mail:hover::after {
+            width: 100%;
+            left: 0;
+        }
 
-
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            .hero h1 {
-                font-size: 3.5rem;
+        /* ---------- Responsive ---------- */
+        @media (max-width: 1200px) {
+            .shell {
+                padding: 0 6%;
             }
-            
-            .brand-circle {
-                width: 100px;
+            .statement-line {
+                grid-template-columns: 3.5rem 1fr;
+                gap: 1.2rem;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .voices-grid {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            .plate {
+                width: 46vw;
+                height: 30vh;
+            }
+            .lead {
+                padding-top: 6rem;
+                padding-bottom: 3rem;
+            }
+            .statement,
+            .territory {
+                padding-top: 6rem;
+                padding-bottom: 6rem;
+            }
+            .voices {
+                padding-top: 6rem;
+                padding-bottom: 4rem;
+            }
+            .contact-block {
+                padding-top: 8rem;
+                padding-bottom: 8rem;
+            }
+            /* descriptions no longer fit on one line next to the headings */
+            .territory-row {
+                grid-template-columns: 1fr 1fr;
+                gap: 1.5rem;
+            }
+            .territory-row p {
+                white-space: normal;
+                opacity: 0.55;
+                transform: none;
+                font-size: 1rem;
+            }
+            .resources img {
+                width: 170px;
                 height: 100px;
+            }
+            .resources h2 {
+                font-size: 1.15rem;
             }
         }
 
         @media (max-width: 768px) {
-            .hero{
-                height: 40vh;
+            /* matches the logo and hero gutter at 5% */
+            .shell {
+                padding: 0 5%;
+            }
+            /* Half-height hero; the name is allowed to break onto two lines */
+            .hero {
+                height: 52svh;
+                min-height: 340px;
+            }
+            .hero-copy {
+                padding: 0 5% 5vh;
+            }
+            .hero-copy {
+                text-align: center;
             }
             .hero h1 {
-                font-size: 3.5rem;
-                bottom: 10vh;
+                line-height: 0.95;
+                /* centered, so the optical left-edge correction no longer applies */
+                margin-left: 0;
             }
-
-            .menu {
+            /* The gap is a non-breaking space, so wrapping can never happen there.
+               Making that span a block forces the surname onto its own line. */
+            .hero h1 .letter.is-space {
+                display: block;
+                width: 0;
+                height: 0;
+                overflow: hidden;
+            }
+            .hero h1 .letter.is-space + .letter.is-space {
                 display: none;
             }
-
-            .menu-toggle {
-                padding: 4px 8px;
-                border-radius: 3px;
-                background-color: black;
-                display: block;
+            .hero-scroll {
+                display: none;
             }
-            .intro{
-                padding: 5rem 2% 2rem 3% ;
+            .lead {
+                padding-top: 5rem;
+                padding-bottom: 2.5rem;
             }
-            .intro p {
-                max-width: 100%;
-                margin: 0 1rem;
-                text-align: center;
-                font-size: 1.2rem;
+            .lead-break {
+                display: none;
             }
-            .about{
-                padding: 3rem 2% 3rem 2% ;
-                margin: 0 1rem;
-                font-size: 1.1rem;
+            .statement {
+                padding-top: 5rem;
+                padding-bottom: 5rem;
             }
-            .brand {
-                width: 75%;
+            .statement-line {
+                grid-template-columns: 1fr;
+                gap: 0.8rem;
+                padding: 2.2rem 0;
             }
-            .gallery {
-                margin-top: 10vh;
-                grid-template-columns: 1fr 1fr; 
-                grid-template-rows: 1fr 1fr 1fr 1fr; 
-                gap: 0px 0px; 
-                grid-template-areas: 
-                  ". ."
-                  ". ."
-                  ". ."
-                  ". ."; 
+            .statement-line .idx {
+                padding-top: 0;
             }
-
-        .swiper-button-next, .swiper-button-prev {
-            top: unset !important;
-            bottom: 65px;
-        }
-        .swiper-button-next {right: 35vw;}
-        .swiper-button-prev {left: 35vw;}
-
-        .quote-content{
-            margin-left: 20px !important;
-            text-align: center !important;
-        }
-        .quote-author{text-align: center;}
-
-            .cta {
+            .territory {
+                padding-top: 5rem;
+                padding-bottom: 5rem;
+            }
+            /* descriptions fit on one line, so the rows can be much tighter */
+            .territory-row {
+                grid-template-columns: 1fr;
+                gap: 0.35rem;
+                padding: 1.2rem 0;
+            }
+            .territory-row h3 {
+                font-size: 1.45rem;
+            }
+            .label {
+                margin-bottom: 1.2rem;
+            }
+            /* small enough to stay on one line */
+            .territory-row p {
+                white-space: nowrap;
+                text-align: left;
+                font-size: 3.1vw;
+                opacity: 0.55;
+                transform: none;
+            }
+            .plate {
+                width: 72vw;
+                height: 26vh;
+            }
+            /* 1.5x faster drift on mobile */
+            .plates-track {
+                animation-duration: 47s;
+            }
+            .voices {
+                padding-top: 5rem;
+                padding-bottom: 3rem;
+            }
+            .writing {
+                padding-top: 3rem;
+                padding-bottom: 6rem;
+            }
+            .resources .row {
                 flex-direction: column;
-                text-align: center;
-                margin: 5rem 1rem;
+                gap: 1.2rem;
             }
-
-            .cta-text {
-                max-width: 85%;
-                margin-left: 0;
-                text-align: center;
-                flex: 1;
-                margin-top: 1rem;
-            }   
-            .cta-website {
-                margin: 1.3rem 0;
-                width: 85%;
-                margin-right: 0%;
-                font-size: 2.2rem;
-                font-weight: 600;
-                transition: ease 0.4s;
+            .resources img {
+                width: 100%;
+                height: 190px;
             }
-            .brand-logos {
-                justify-content: space-around;
+            .contact-block {
+                padding-top: 6rem;
+                padding-bottom: 6rem;
             }
-            
-            .brand-circle {
-                width: 90px;
-                height: 90px;
+            .contact-block .tick {
+                height: 2.5rem;
+                margin-bottom: 1.8rem;
             }
-            
-            .project-grid {
-                grid-template-columns: 1fr; /* Single column on mobile */
+            .contact-block .kicker {
+                margin-bottom: 3rem;
             }
-        .resources{
-            margin: auto 5vw;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            max-width: 96%;
-            margin-top: 10vh
-        }
-        .resources a{
-            box-shadow: 0 1px 20px rgba(28, 28, 28, 0.1);
-            border-radius: 18px;
-            margin-top: 5vh;
-            transition: 0.3s ease-in-out;
-        }
-        .resources a:hover{
-            opacity: 0.8;
-            margin-top: 4.6vh;
-            margin-bottom: 0.4vh;
-            transition: 0.5 ease-in-out;
-        }
-        .resources .row{
-            display: flex;
-            flex-direction: column;
-        }
-        .resources img{
-            width: 100%;
-            border-bottom-left-radius: 0px;
-            border-top-left-radius: 18px ;
-            border-top-right-radius: 18px ;
-        }
-        .resources .textBox{
-            margin: auto 4%;
-            margin-right: 2%;
-            padding: 3vh 1vw;
-            text-align: center;
-        }
-        .resources h2 {
-            font-size: 1.4rem;
-        }
         }
     </style>
 </head>
 <body class="theme-professional page-professional">
-    <!-- Navigation -->
+    <!-- Fixed Logo -->
+    <div class="logo-fixed">
+        <a href="index.html">
+            <svg width="23" height="41" viewBox="0 0 29 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="1" y="1" width="26" height="48" fill="black"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M28.3824 0H0V50H28.3824V0ZM18.7118 32.4507V42.5632C18.7118 43.5494 19.2392 44.0425 20.2941 44.0425C21.332 44.0425 21.8509 43.5494 21.8509 42.5632V29.492C21.8509 28.4469 20.728 27.2252 18.4821 25.8268C16.2192 24.4431 15.0877 22.7503 15.0877 20.7484V7.47852C15.0877 4.44624 16.8147 2.9301 20.2686 2.9301C23.7395 2.9301 25.475 4.44624 25.475 7.47852V17.6352H21.8509V7.47852C21.8509 6.50701 21.332 6.02126 20.2941 6.02126H20.2686C19.2307 6.02126 18.7118 6.50701 18.7118 7.47852V20.6822C18.7118 21.6537 19.8347 22.8386 22.0806 24.237C24.3435 25.6207 25.475 27.284 25.475 29.2271V42.5632C25.475 45.6102 23.748 47.1337 20.2941 47.1337C16.8232 47.119 15.0877 45.5955 15.0877 42.5632V32.4507H18.7118ZM3.12927 3.26661H8.7228C11.9558 3.26661 13.5722 4.79088 13.5722 7.83942V42.2465C13.5722 45.2803 11.8788 46.8045 8.49188 46.8193H3.12927V3.26661ZM6.77276 6.35215V43.7116H8.36359C9.40703 43.7116 9.92875 43.2232 9.92875 42.2465V7.83942C9.92875 6.84791 9.40703 6.35215 8.36359 6.35215H6.77276Z" fill="white"/>
+            </svg>
+        </a>
+    </div>
+
+    <!-- Floating Island Navigation -->
     <nav>
-        <div class="logo">
-            <a href="index.html" style="display: block; cursor: pointer;">
-                <svg width="23" height="41" viewBox="0 0 29 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="1" y="1" width="26" height="48" fill="black"/>
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M28.3824 0H0V50H28.3824V0ZM18.7118 32.4507V42.5632C18.7118 43.5494 19.2392 44.0425 20.2941 44.0425C21.332 44.0425 21.8509 43.5494 21.8509 42.5632V29.492C21.8509 28.4469 20.728 27.2252 18.4821 25.8268C16.2192 24.4431 15.0877 22.7503 15.0877 20.7484V7.47852C15.0877 4.44624 16.8147 2.9301 20.2686 2.9301C23.7395 2.9301 25.475 4.44624 25.475 7.47852V17.6352H21.8509V7.47852C21.8509 6.50701 21.332 6.02126 20.2941 6.02126H20.2686C19.2307 6.02126 18.7118 6.50701 18.7118 7.47852V20.6822C18.7118 21.6537 19.8347 22.8386 22.0806 24.237C24.3435 25.6207 25.475 27.284 25.475 29.2271V42.5632C25.475 45.6102 23.748 47.1337 20.2941 47.1337C16.8232 47.119 15.0877 45.5955 15.0877 42.5632V32.4507H18.7118ZM3.12927 3.26661H8.7228C11.9558 3.26661 13.5722 4.79088 13.5722 7.83942V42.2465C13.5722 45.2803 11.8788 46.8045 8.49188 46.8193H3.12927V3.26661ZM6.77276 6.35215V43.7116H8.36359C9.40703 43.7116 9.92875 43.2232 9.92875 42.2465V7.83942C9.92875 6.84791 9.40703 6.35215 8.36359 6.35215H6.77276Z" fill="white"/>
-                </svg>
-            </a>
-        </div>
         <div class="menu">
-            <a href="index.html">Home</a>
-            <a href="#about">About</a>
-            <a href="#projects">Projects</a>
-            <a href="music.html">Expression</a>
+            <a href="corporate.html" class="active">Corporate</a>
             <a href="https://fistkolektif.com" target="_blank" rel="noopener noreferrer">Kolektif</a>
+            <a href="music.html">Expression</a>
             <a href="#contact">Contact</a>
         </div>
         <div class="menu-toggle">
@@ -742,422 +696,350 @@
     <!-- Mobile Menu Overlay -->
     <div class="mobile-menu-overlay">
         <div class="mobile-menu-items">
-            <a href="#">Home</a>
-            <a href="#about">About</a>
-            <a href="#projects">Projects</a>
+            <a href="corporate.html" class="active">Corporate</a>
+            <a href="https://fistkolektif.com" target="_blank" rel="noopener noreferrer">Kolektif</a>
+            <a href="music.html">Expression</a>
             <a href="#contact">Contact</a>
         </div>
     </div>
 
-    <!-- Hero Section - Only Name -->
+    <!-- Hero (black) -->
     <section class="hero">
         <canvas id="canvas"></canvas>
-        <h1 id="animated-heading">DENİZ &nbsp; SULMAZ</h1>
+        <div class="hero-copy">
+            <h1 id="animated-heading">DENİZ&nbsp;&nbsp;SULMAZ</h1>
+        </div>
+        <a class="hero-scroll" href="#territory">Scroll<span></span></a>
     </section>
 
-    <!-- Intro Section - Moved from Hero -->
-    <section class="intro">
-        <p>The future isn’t something we wait for—it’s something we build. United by a shared purpose and driven by bold innovation, we are creating a Sustainable United Future Ecosystem where collaboration empowers, and impact shapes a harmonious world. Together, we are designing the future we seek.</p>
-    </section>
+    <div class="cursor-ring"></div>
+    <div class="cursor-dot"></div>
 
-    <!-- About Section -->
-    <section class="about" id="about">
-        <h2>ABOUT / #whoami</h2>
-        <p>
-            Deniz is a global social and high-tech entrepreneur whose career crosses industries, disciplines, and cultures. He combines entrepreneurial agility with systems thinking, always seeking the patterns and connections that transform ideas into solutions with lasting impact. His work spans technology, social innovation, and strategy, all grounded in the goal of creating meaningful and sustainable change.
-            <br><br>
-            Deniz has built products, businesses, and communities both from scratch and by transforming existing structures. His focus is on creating frameworks that enable people to solve problems within their own contexts. The results he pursues are resilient, adaptable, and built to scale, whether he is working with startups, NGOs, or established organizations.
-            <br><br>
-            At his core, Deniz is driven by curiosity and a desire to make sense of complexity. He approaches challenges like composing music, blending structure with creativity to create something that resonates over time. This mindset allows him to navigate uncertainty, adapt to change, and lead with both vision and precision. For Deniz, success is not just about achieving outcomes but about building systems that continue to create value long after the initial idea takes shape.
-            </p>
-
+    <main>
+        <!-- Lead (white) -->
+        <section class="band">
+            <div class="lead shell">
+                <p class="reveal"><em>Entrepreneur. Product Manager.</em> I work across technology, culture and social impact, usually at the point where the three are colliding.</p>
+            </div>
         </section>
 
-    <!-- Projects Section -->
-    <section class="projects" id="projects">
-        <h2>PROJECTS & CONCEPTS</h2>
-        <div class="project-grid">
-            <!-- Project A -->
-            <a class="project-card" href="https://vforhuman.notion.site/Oasis-Dome-Coexistence-in-Public-Spaces-1bcb0d16e177803c8ed3d1d6d560487c?pvs=4" target="_blank" rel="noopener noreferrer">
-                <div class="project-image">
-                    <img src="media/1 OasisDome.png" alt="Oasis Dome">
-                </div>
-                <div class="project-info">
-                    <div class="tag">Human-Centered Concept Design</div>
-                    <h3>Coexistence in Public Spaces</h3>
-                    <p>Oasis Dome, 2024</p>
-                </div>
-            </a>
-            <!-- Project B -->
-            <a class="project-card" href="https://vforhuman.notion.site/COPPLINN-Re-Branding-1bcb0d16e1778017a384ccd2a58fed30?pvs=4" target="_blank" rel="noopener noreferrer">
-                <div class="project-image">
-                    <img src="media/2 copplinn.png" alt="Copplinn Rebranding">
-                </div>
-                <div class="project-info">
-                    <div class="tag">Branding, Interaction Design</div>
-                    <h3>Re-Branding Project</h3>
-                    <p>COPPLINN, 2024</p>
-                </div>
-            </a>
-            <!-- Project A -->
-            <a class="project-card" href="https://vforhuman.notion.site/Data-Driven-Segmentation-Experiment-Analysis-1bcb0d16e17780109336ee7143e437b4?pvs=4" target="_blank" rel="noopener noreferrer">
-                <div class="project-image">
-                    <img src="media/3 Product.png" alt="Product Analysis">
-                </div>
-                <div class="project-info">
-                    <div class="tag">Product Analysis, Data Analysis</div>
-                    <h3>Data-Driven Segmentation & Analysis</h3>
-                    <p>HSIT, 2023</p>
-                </div>
-            </a>
-            <!-- Project B -->
-            <a class="project-card" href="https://vforhuman.notion.site/TRAJECTORY-Prioritization-Tool-for-Teams-1bcb0d16e177803ba587e18b0e5dbea3?pvs=4" target="_blank" rel="noopener noreferrer">
-                <div class="project-image">
-                    <img src="media/4 TRAJECTORY.png" alt="TRAJECTORY">
-                </div>
-                <div class="project-info">
-                    <div class="tag">Product & Team Design</div>
-                    <h3>Prioritization Tool for Teams</h3>
-                    <p>TRAJECTORY, 2022</p>
-                </div>
-            </a>
-            <!-- Project A -->
-            <a class="project-card" href="https://vforhuman.notion.site/Concept-Automation-Marketing-for-V4H-Assoc-1bcb0d16e177803aac6fff6e9fd4821c?pvs=4" target="_blank" rel="noopener noreferrer">
-                <div class="project-image">
-                    <img src="media/5 V4H Automation.png" alt="V4H Automation">
-                </div>
-                <div class="project-info">
-                    <div class="tag">Digital & Email Marketing</div>
-                    <h3>Concept Automation & Marketing</h3>
-                    <p>V4H Assoc, 2025</p>
-                </div>
-            </a>
-            <!-- Project B -->
-            <a class="project-card" href="https://vforhuman.notion.site/SoundPool-dApp-UI-UX-Business-Strategy-1bcb0d16e1778041b274e53f3692c1cf?pvs=4" target="_blank" rel="noopener noreferrer">
-                <div class="project-image">
-                    <img src="media/6 SoundPool.png" alt="SoundPool">
-                </div>
-                <div class="project-info">
-                    <div class="tag">Interaction Design, Digital Marketing, Business Dev.</div>
-                    <h3>UI/UX & Business Strategy</h3>
-                    <p>SoundPool dApp, 2021</p>
-                </div>
-            </a>
-            <!-- Project A -->
-            <a class="project-card" href="https://vforhuman.notion.site/Mastering-Teamwork-Achieve-Maintain-1bcb0d16e1778045b6b5fc80e16dc60f?pvs=4" target="_blank" rel="noopener noreferrer">
-                <div class="project-image">
-                    <img src="media/7 Teamwork.png" alt="Teamwork">
-                </div>
-                <div class="project-info">
-                    <div class="tag">Research Publication</div>
-                    <h3>Mastering Teamwork: Achieve & Maintain</h3>
-                    <p>Team Vision, 2025</p>
-                </div>
-            </a>
-            <!-- Project B -->
-            <a class="project-card" href="https://vforhuman.notion.site/T-R-A-S-H-Waste-to-Wealth-A-Journey-Beyond-the-Blue-Bin-1bcb0d16e1778054a510dec0901ea0e4?pvs=4" target="_blank" rel="noopener noreferrer">
-                <div class="project-image">
-                    <img src="media/8 Trash.png" alt="T.R.A.S.H">
-                </div>
-                <div class="project-info">
-                    <div class="tag">Data Visualization</div>
-                    <h3>Waste to Wealth: A Journey Beyond the Blue Bin</h3>
-                    <p>T.R.A.S.H, 2023</p>
-                </div>
-            </a>
-            <!-- Project A -->
-            <a class="project-card" href="https://vforhuman.notion.site/Coach-Space-Behavioural-Concept-Design-1bcb0d16e17780a9a262ddd61c3e84da?pvs=4 target="_blank" rel="noopener noreferrer">
-                <div class="project-image">
-                    <img src="media/9 CoachSpace.png" alt="CoachSpace">
-                </div>
-                <div class="project-info">
-                    <div class="tag">Behavioural Design, Psychology, Interaction Design </div>
-                    <h3>Behavioural Concept UI/UX Design</h3>
-                    <p>Coach.Space, 2025</p>
-                </div>
-            </a>
-            <!-- Project B -->
-            <a class="project-card" href="https://vforhuman.notion.site/Uniqlo-Thailand-Email-Marketing-Strategy-1bcb0d16e17780de92baceae311d3bdc?pvs=4" target="_blank" rel="noopener noreferrer">
-                <div class="project-image">
-                    <img src="media/10 Uniqlo.png" alt="Uniqlo">
-                </div>
-                <div class="project-info">
-                    <div class="tag">Digital Marketing</div>
-                    <h3>Email Marketing Strategy</h3>
-                    <p>Uniqlo Thailand, 2024</p>
-                </div>
-            </a>
-
-        </div>
-    </section>
-
-    <!-- Gallery Section -->
-    <section class="gallery" id="gallery">
-        <div class="gallery-item">
-            <img src="media/g1.png" alt="Gallery Image">
-        </div>
-        <div class="gallery-item">
-            <img src="media/g2.png" alt="Gallery Image">
-        </div>
-        <div class="gallery-item">
-            <img src="media/g3.png" alt="Gallery Image">
-        </div>
-        <div class="gallery-item">
-            <img src="media/g4.png" alt="Gallery Image">
-        </div>
-        <div class="gallery-item">
-            <img src="media/g5.png" alt="Gallery Image">
-        </div>
-        <div class="gallery-item">
-            <img src="media/g6.png" alt="Gallery Image">
-        </div>
-        <div class="gallery-item">
-            <img src="media/g7.png" alt="Gallery Image">
-        </div>
-        <div class="gallery-item">
-            <img src="media/g8.png" alt="Gallery Image">
-        </div>
-
-    </section>
-
-    <!-- Quotes Section -->
-    <section class="quotes" id="quotes">
-        <h2>QUOTES</h2>
-        <div class="quotes-container">
-            <div class="swiper swiper-quotes">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide quote-slide">
-                        <div class="quote-content">
-                            "An expansive, strategic thinker who also gets stuff done. I've taught him twice and am so impressed with his ideas - really big ideas - and he's actually executing on them, while studying. "
-                        </div>
-                        <div class="quote-author">— Stephanie Schwab <br> <i>CEO, Crackerjack Marketing </i></div>
+        <!-- Territory (white) -->
+        <section class="band" id="territory">
+            <div class="territory shell">
+                <span class="label reveal">Where I operate</span>
+                <div class="territory-list">
+                    <div class="territory-row reveal">
+                        <h3>Product Management</h3>
+                        <p>Research-grade capability, shaped into daily software.</p>
                     </div>
-                    <div class="swiper-slide quote-slide">
-                        <div class="quote-content">
-                            "Deniz is a hugely talented and multi-skilled entrepreneur with immense drive to build something special."
-                        </div>
-                        <div class="quote-author">— Ian Collingwood <br> <i>Principal, UXdna</i></div>
+                    <div class="territory-row reveal">
+                        <h3>Venture Building</h3>
+                        <p>Thesis to first paying customer, without shortcuts.</p>
                     </div>
-                    <div class="swiper-slide quote-slide">
-                        <div class="quote-content">
-                            "I am very impressed with your creativity and adaptability. I also saw great potential in your entrepreneurial spirit. Above all, your leadership will continue to be a great strength. "
-                        </div>
-                        <div class="quote-author">— Ryoichi Río Fukaya <br> <i>Director, Strategy & Operations at Rakuten Europe </i></div>
+                    <div class="territory-row reveal">
+                        <h3>Culture &amp; Production</h3>
+                        <p>Music, exhibitions and collectives, run as businesses.</p>
                     </div>
-                    <div class="swiper-slide quote-slide">
-                        <div class="quote-content">
-                            "You demonstrated excellent grasp of the financial modelling concepts in this class, developing a comprehensive and clean presentation with your team."
-                        </div>
-                        <div class="quote-author">— Eric Nobileau <br> <i>Group CFO, Harbour.Space</i></div>
+                    <div class="territory-row reveal">
+                        <h3>Social Impact &amp; Human Rights</h3>
+                        <p>Frameworks for dignity where platforms rule people.</p>
                     </div>
-                    <div class="swiper-slide quote-slide">
-                        <div class="quote-content">
-                            "You have shown great research skills and a solid ability to organise your projects effectively. It is evident that you have learned how to overcome project difficulties and consistently conducted excellent research. I admire your dedication to always keeping your audience in mind."
-                        </div>
-                        <div class="quote-author">— Tiziana Alocci <br> <i>Creative Director, NECESSITY.INK</i></div>
+                    <div class="territory-row reveal">
+                        <h3>Brand &amp; Interaction</h3>
+                        <p>Identity, narrative and interface as a single system.</p>
                     </div>
-                    <div class="swiper-slide quote-slide">
-                        <div class="quote-content">
-                            "Very good writing skills combined with the trustworthy presence are the key to any successful negotiations. I am absolutely convinced Deniz will get anything and/or anywhere he sets his mind to."
-                        </div>
-                        <div class="quote-author">— Katlin Kaldmaa <br> <i>Writer; International Secretary, PEN International</i></div>
-                    </div>
-                
-                
                 </div>
-
             </div>
-        </div>
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
-    </section>
+        </section>
 
-
-    <div class="resources">
-        <h1>Articles & Highlights</h1>
-        <br>
-
-
-        <!-- - -->
-        <a class="row" href="https://www.vforhuman.org/articles/a-human-rights-imperative-in-the-age-of-technofeudalism" target="_blank" rel="noopener noreferrer">
-            <img src="https://images.squarespace-cdn.com/content/v1/65978dd6d5a07d4fcd43ef1f/1754022415860-OQCN4GL5DIDD2U4UG9S1/technofeudalism.png?format=2500w" alt="">
-            <div class="textBox">
-                <h2>A Human Rights Imperative in the Age of Technofeudalism</h2>
-                <h5>V FOR HUMAN Association <br>
-                    Author: Deniz Sulmaz <br>
-                    Article · 2025</h5>
+        <!-- Statement (black) -->
+        <section class="band band-dark" id="statement">
+            <div class="statement shell">
+                <span class="label reveal">Statement</span>
+                <div class="statement-lines">
+                    <div class="statement-line reveal">
+                        <div class="idx">01</div>
+                        <p>I'd rather build the machine than the pitch.</p>
+                    </div>
+                    <div class="statement-line reveal">
+                        <div class="idx">02</div>
+                        <p>I prefer problems nobody has branded.</p>
+                    </div>
+                    <div class="statement-line reveal">
+                        <div class="idx">03</div>
+                        <p>If it can't survive without me, it isn't finished.</p>
+                    </div>
+                </div>
             </div>
-        </a>
-        <!-- - -->
-        <a class="row" href="https://drive.google.com/file/d/1rV52xVxXKSnHZ-9ZpyWZpoopRYm-h7sI/view?usp=sharing" target="_blank" rel="noopener noreferrer">
-            <img src="media/7 Teamwork.png" alt="">
-            <div class="textBox">
-                <h2>Mastering Teamwork: Achieve & Maintain</h2>
-                <h5>Team Vision <br>
-                    Advisor: Hannes S. Chopra <br>
-                    Publication · 2025</h5>
-            </div>
-        </a>
-        <!-- - -->
-        <a class="row" href="https://harbourspace.utcc.ac.th/blogs/artivism-radical-hope-exhibition-social-impact/" target="_blank" rel="noopener noreferrer">
-            <img src="https://wp-harbour.utcc.ac.th/%77%70%2d%63%6f%6e%74%65%6e%74/uploads/2025/05/HS-SEO-1-Blog-SEO-April-2025-Desktop-Size-min.png" alt="">
-            <div class="textBox">
-                <h2>Artivism: Radical Hope Exhibition — Collaborative Social Impact</h2>
-                <h5>Harbour.Space@UTCC <br>
-                    External Blog · 2025</h5>
-            </div>
-        </a>
-        <!-- - -->
-        <a class="row" href="https://harbourspace.utcc.ac.th/blogs/harbourspace-student-deniz-gsea-finals/" target="_blank" rel="noopener noreferrer">
-            <img src="https://wp-harbour.utcc.ac.th/%77%70%2d%63%6f%6e%74%65%6e%74/uploads/2025/04/HS-SEO-1-Blog-SEO-March-2025-Desktop-min.png" alt="">
-            <div class="textBox">
-                <h2>Harbour.Space Student Deniz Stands Out at GSEA Finals</h2>
-                <h5>Harbour.Space@UTCC <br>
-                    External Blog · 2025</h5>
-            </div>
-        </a>
-        <!-- - -->
-        <a class="row" href="https://www.youtube.com/watch?v=KfmIKjRrIRo&t=1475s&ab_channel=COINTURKTV" target="_blank" rel="noopener noreferrer">
-            <img src="https://img.youtube.com/vi/KfmIKjRrIRo/maxresdefault.jpg" alt="">
-            <div class="textBox">
-                <h2>DApp Ekosistemi ile Geleceği Yakalamak Mümkün mü?</h2>
-                <h5>CoinTurk <br>
-                    Youtube Video · 2022</h5>
-            </div>
-        </a>
-        <!-- - -->
-        <a class="row" href="https://medium.com/yaz%C4%B1l%C4%B1m-ve-bili%C5%9Fim-kul%C3%BCb%C3%BC/ak%C4%B1ll%C4%B1-s%C3%B6zle%C5%9Fmeler-ve-solidty-c01c8b8c9f0c" target="_blank" rel="noopener noreferrer">
-            <img src="https://miro.medium.com/v2/resize:fit:2000/format:webp/1*o042rZZ82pIaS0S5KrAQzQ.png" alt="">
-            <div class="textBox">
-                <h2>Akıllı Sözleşmeler ve Solidty</h2>
-                <h5>BAU Software & IT Club <br>
-                    Guest Writing · 2021</h5>
-            </div>
-        </a>
+        </section>
 
-    </div>
+        <!-- Plates (black, full-bleed) -->
+        <section class="band band-dark plates" aria-hidden="true">
+            <div class="plates-track">
+                <div class="plate"><img src="media/g1.png" alt=""></div>
+                <div class="plate"><img src="media/g2.png" alt=""></div>
+                <div class="plate"><img src="media/g3.png" alt=""></div>
+                <div class="plate"><img src="media/g4.png" alt=""></div>
+                <div class="plate"><img src="media/g5.png" alt=""></div>
+                <div class="plate"><img src="media/g6.png" alt=""></div>
+                <div class="plate"><img src="media/g7.png" alt=""></div>
+                <div class="plate"><img src="media/g8.png" alt=""></div>
+                <div class="plate"><img src="media/g1.png" alt=""></div>
+                <div class="plate"><img src="media/g2.png" alt=""></div>
+                <div class="plate"><img src="media/g3.png" alt=""></div>
+                <div class="plate"><img src="media/g4.png" alt=""></div>
+                <div class="plate"><img src="media/g5.png" alt=""></div>
+                <div class="plate"><img src="media/g6.png" alt=""></div>
+                <div class="plate"><img src="media/g7.png" alt=""></div>
+                <div class="plate"><img src="media/g8.png" alt=""></div>
+            </div>
+        </section>
 
+        <!-- Voices (white) -->
+        <section class="band" id="voices">
+            <div class="voices shell">
+                <span class="label reveal">On the record</span>
+                <div class="voices-grid">
+                    <div class="voice reveal">
+                        <p>“An expansive, strategic thinker who also gets stuff done. I've taught him twice and am so impressed with his ideas, really big ideas, and he's actually executing on them, while studying.”</p>
+                        <cite><strong>Stephanie Schwab</strong> · CEO, Crackerjack Marketing</cite>
+                    </div>
+                    <div class="voice reveal">
+                        <p>“Deniz is a hugely talented and multi-skilled entrepreneur with immense drive to build something special.”</p>
+                        <cite><strong>Ian Collingwood</strong> · Principal, UXdna</cite>
+                    </div>
+                    <div class="voice reveal">
+                        <p>“I am very impressed with your creativity and adaptability. I also saw great potential in your entrepreneurial spirit. Above all, your leadership will continue to be a great strength.”</p>
+                        <cite><strong>Ryoichi Río Fukaya</strong> · Director, Strategy &amp; Operations, Rakuten Europe</cite>
+                    </div>
+                    <div class="voice reveal">
+                        <p>“Very good writing skills combined with a trustworthy presence are the key to any successful negotiation. I am absolutely convinced Deniz will get anything and anywhere he sets his mind to.”</p>
+                        <cite><strong>Katlin Kaldmaa</strong> · Writer; International Secretary, PEN International</cite>
+                    </div>
+                    <div class="voice reveal">
+                        <p>“I had the pleasure of working with Deniz at NECESSITY.INK. During his time at the studio, he showed curiosity, reliability, and a genuine willingness to learn across both creative and technical tasks.<br><br>Deniz approached projects with care and professionalism, adapted quickly to feedback, and contributed positively to the studio growth. I particularly appreciated his proactive attitude and thoughtful approach to problem-solving. I'm confident he will continue to grow and do well in future roles.”</p>
+                        <cite><strong>Tiziana Alocci</strong> · Creative Director, NECESSITY.INK</cite>
+                    </div>
+                    <div class="voice reveal">
+                        <p>“You demonstrated excellent grasp of the financial modelling concepts in this class, developing a comprehensive and clean presentation with your team.”</p>
+                        <cite><strong>Eric Nobileau</strong> · Group CFO, Harbour.Space</cite>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <!-- Call to Action -->
-    <div class="cta">
-        <div class="cta-text">
-            <p>Whether it’s building something bold, collaborating on meaningful projects, new opportunities or taking on leadership roles that drive impact. If you believe there’s a good fit, feel free to get in touch at  →</p>
-        </div>
-        <div class="cta-website">
-            <a href="mailto:deniz@fistkolektif.com">deniz@fistkolektif.com</a>
-        </div>
-    </div>
+        <!-- Writing & appearances (white) -->
+        <section class="band" id="writing">
+            <div class="writing shell">
+                <div class="resources">
+                    <span class="label reveal">Writing &amp; appearances</span>
+
+                    <a class="row reveal" href="https://www.vforhuman.org/blog/is-revolution-still-possible" target="_blank" rel="noopener noreferrer">
+                        <img src="https://images.squarespace-cdn.com/content/v1/696107467d4f4846a3d582e4/1773875826848-W6UJZD8IA5J8JK53LI71/revolutionCover.png?format=2500w" alt="">
+                        <div class="textBox">
+                            <h2>Is Revolution Still Possible?</h2>
+                            <h5>V FOR HUMAN Association · Author: Deniz Sulmaz · Article, 2026</h5>
+                        </div>
+                    </a>
+
+                    <a class="row reveal" href="https://www.vforhuman.org/articles/a-human-rights-imperative-in-the-age-of-technofeudalism" target="_blank" rel="noopener noreferrer">
+                        <img src="https://images.squarespace-cdn.com/content/v1/696107467d4f4846a3d582e4/1767966577311-JOUMFIRYVHHN1Q9IPZEB/technofeudalism.png?format=2500w" alt="">
+                        <div class="textBox">
+                            <h2>A Human Rights Imperative in the Age of Technofeudalism</h2>
+                            <h5>V FOR HUMAN Association · Author: Deniz Sulmaz · Article, 2025</h5>
+                        </div>
+                    </a>
+
+                    <a class="row reveal" href="https://drive.google.com/file/d/1rV52xVxXKSnHZ-9ZpyWZpoopRYm-h7sI/view?usp=sharing" target="_blank" rel="noopener noreferrer">
+                        <img src="media/7 Teamwork.png" alt="">
+                        <div class="textBox">
+                            <h2>Mastering Teamwork: Achieve &amp; Maintain</h2>
+                            <h5>Team Vision · Advisor: Hannes S. Chopra · Publication, 2025</h5>
+                        </div>
+                    </a>
+
+                    <a class="row reveal" href="https://harbourspace.utcc.ac.th/blogs/artivism-radical-hope-exhibition-social-impact/" target="_blank" rel="noopener noreferrer">
+                        <img src="https://wp-harbour.utcc.ac.th/%77%70%2d%63%6f%6e%74%65%6e%74/uploads/2025/05/HS-SEO-1-Blog-SEO-April-2025-Desktop-Size-min.png" alt="">
+                        <div class="textBox">
+                            <h2>Artivism: Radical Hope Exhibition, Collaborative Social Impact</h2>
+                            <h5>Harbour.Space@UTCC · External Blog, 2025</h5>
+                        </div>
+                    </a>
+
+                    <a class="row reveal" href="https://harbourspace.utcc.ac.th/blogs/harbourspace-student-deniz-gsea-finals/" target="_blank" rel="noopener noreferrer">
+                        <img src="https://wp-harbour.utcc.ac.th/%77%70%2d%63%6f%6e%74%65%6e%74/uploads/2025/04/HS-SEO-1-Blog-SEO-March-2025-Desktop-min.png" alt="">
+                        <div class="textBox">
+                            <h2>Standing Out at the GSEA Finals</h2>
+                            <h5>Harbour.Space@UTCC · External Blog, 2025</h5>
+                        </div>
+                    </a>
+
+                    <a class="row reveal" href="https://www.youtube.com/watch?v=KfmIKjRrIRo&t=1475s&ab_channel=COINTURKTV" target="_blank" rel="noopener noreferrer">
+                        <img src="https://img.youtube.com/vi/KfmIKjRrIRo/maxresdefault.jpg" alt="">
+                        <div class="textBox">
+                            <h2>DApp Ekosistemi ile Geleceği Yakalamak Mümkün mü?</h2>
+                            <h5>CoinTurk · YouTube, 2022</h5>
+                        </div>
+                    </a>
+
+                    <a class="row reveal" href="https://medium.com/yaz%C4%B1l%C4%B1m-ve-bili%C5%9Fim-kul%C3%BCb%C3%BC/ak%C4%B1ll%C4%B1-s%C3%B6zle%C5%9Fmeler-ve-solidty-c01c8b8c9f0c" target="_blank" rel="noopener noreferrer">
+                        <img src="https://miro.medium.com/v2/resize:fit:2000/format:webp/1*o042rZZ82pIaS0S5KrAQzQ.png" alt="">
+                        <div class="textBox">
+                            <h2>Akıllı Sözleşmeler ve Solidity</h2>
+                            <h5>BAU Software &amp; IT Club · Guest Writing, 2021</h5>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact (black) -->
+        <section class="band band-dark">
+            <div class="contact-block shell">
+                <div class="tick reveal"></div>
+                <span class="label reveal">The door</span>
+                <p class="kicker reveal">There is more, and it isn't on this page.<br>If you want the rest of it, let's talk.</p>
+                <a class="contact-mail reveal" href="mailto:deniz@fistkolektif.com">deniz@fistkolektif.com</a>
+            </div>
+        </section>
+    </main>
 
     <!-- Footer -->
     <footer id="contact">
+        <div class="footer-meta">
+            <span class="footer-origin">Istanbul to World</span>
+            <span class="copy">Fist Kolektif, 2026 © All rights reserved</span>
+        </div>
         <div class="footer-logo">Deniz Sulmaz</div>
-        <div class="footer-links">
-            <a>Istanbul</a>
-            <a>Bangkok</a>
-            <a>Barcelona</a>
-        </div>
         <div class="social-icons">
-            <a href="http://instagram.com/denizsulmaz_"><i class="fab fa-instagram"></i></a>
-            <a href="https://denizsulmaz.medium.com/"><i class="fab fa-medium"></i></a>
-            <a href="https://github.com/denizsulmaz/"><i class="fab fa-github"></i></a>
-            <a href="https://www.linkedin.com/in/denizsulmaz/"><i class="fab fa-linkedin"></i></a>
+            <a href="http://instagram.com/denizsulmaz_" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+            <a href="https://denizsulmaz.medium.com/" target="_blank" rel="noopener noreferrer"><i class="fab fa-medium"></i></a>
+            <a href="https://github.com/denizsulmaz/" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/denizsulmaz/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
         </div>
-
-        <div class="copy">Self Developed — 2026 © All rights reserved</div>
     </footer>
 
     <!-- Scripts -->
-
-    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.min.js"></script>
     <script src="app.js"></script>
     <script>
-        // Initialize Swiper for Quotes (showing 3 at a time on desktop)
-        const swiper = new Swiper('.swiper-quotes', {
-            slidesPerView: 1,
-            spaceBetween: 30,
-            loop: true,
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-            breakpoints: {
-                768: {
-                    slidesPerView: 3,
-                    slidesPerGroup: 1,
-                    spaceBetween: 20,
-                },
-                576: {
-                    slidesPerView: 1,
-                    spaceBetween: 20,
-                }
-            }
-        });
-
-        // Mobile Menu Toggle with Animation
+        // Mobile menu
         const menuToggle = document.querySelector('.menu-toggle');
         const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
-        const mobileMenuItems = document.querySelectorAll('.mobile-menu-items a');
 
         menuToggle.addEventListener('click', () => {
             mobileMenuOverlay.classList.toggle('active');
-            
-            // Change hamburger icon to X when menu is open
             const icon = menuToggle.querySelector('i');
-            if (mobileMenuOverlay.classList.contains('active')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-            } else {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-            }
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
         });
 
-        // Close mobile menu when a link is clicked
-        mobileMenuItems.forEach(item => {
+        document.querySelectorAll('.mobile-menu-items a').forEach(item => {
             item.addEventListener('click', () => {
                 mobileMenuOverlay.classList.remove('active');
                 const icon = menuToggle.querySelector('i');
-                icon.classList.remove('fa-times');
                 icon.classList.add('fa-bars');
+                icon.classList.remove('fa-times');
             });
         });
 
-        // Project Card Click Event
-        const projectCards = document.querySelectorAll('.project-card');
-        projectCards.forEach(card => {
-            card.addEventListener('click', () => {
-                // You can add a redirect to the project details page
-                // or open a modal with project details
-                console.log('Project clicked:', card.querySelector('h3').textContent);
-                // Example: window.location.href = 'project-details.html?id=projectId';
-            });
-        });
-
-        // Smooth Scrolling for Navigation Links
+        // Smooth scroll for in-page anchors only
         document.querySelectorAll('nav a, .mobile-menu-items a').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 const href = this.getAttribute('href');
-                
-                if (href !== '#') {
+                if (href && href !== '#' && href.startsWith('#')) {
                     e.preventDefault();
-                    const targetId = href.substring(1);
-                    const targetElement = document.getElementById(targetId);
-                    
-                    if (targetElement) {
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 70,
-                            behavior: 'smooth'
-                        });
+                    const target = document.querySelector(href);
+                    if (target) {
+                        const navHeight = document.querySelector('nav').offsetHeight || 70;
+                        window.scrollTo({ top: target.offsetTop - navHeight - 10, behavior: 'smooth' });
                     }
                 }
             });
         });
 
+        // Fit the hero name to the exact available width: never wraps, never hits the scroll cue
+        const heroCopy = document.querySelector('.hero-copy');
+        const heroHeading = document.getElementById('animated-heading');
 
-        
+        function fitHeadline() {
+            if (!heroCopy || !heroHeading) return;
+
+            const mobile = window.innerWidth <= 768;
+
+            // Never rewrite the heading's markup here: app.js re-splits it from textContent,
+            // so touching innerHTML would destroy the space between the two words.
+            heroHeading.style.whiteSpace = mobile ? 'normal' : 'nowrap';
+
+            const style = getComputedStyle(heroCopy);
+            const available = heroCopy.clientWidth
+                - parseFloat(style.paddingLeft)
+                - parseFloat(style.paddingRight);
+            if (available <= 0) return;
+
+            // Measure at a known size, then scale. On mobile the space span is a block,
+            // so the measured width is the longer of the two lines.
+            const probe = 200;
+            heroHeading.style.fontSize = `${probe}px`;
+            const natural = heroHeading.scrollWidth;
+            if (!natural) return;
+
+            // Fill a share of the line rather than all of it
+            const fill = mobile ? 0.78 : 0.82;
+            const fitted = probe * (available / natural) * fill;
+            const ceiling = window.innerHeight * (mobile ? 0.16 : 0.5);
+            heroHeading.style.fontSize = `${Math.min(fitted, ceiling)}px`;
+        }
+
+        fitHeadline();
+        window.addEventListener('resize', fitHeadline);
+        if (document.fonts && document.fonts.ready) {
+            document.fonts.ready.then(fitHeadline);
+        }
+        // app.js splits the heading into per-letter spans on DOMContentLoaded; refit after that
+        window.addEventListener('load', fitHeadline);
+
+        // Custom cursor: dot snaps, ring trails
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorRing = document.querySelector('.cursor-ring');
+        let pointerX = window.innerWidth / 2;
+        let pointerY = window.innerHeight / 2;
+        let ringX = pointerX;
+        let ringY = pointerY;
+
+        window.addEventListener('mousemove', (e) => {
+            pointerX = e.clientX;
+            pointerY = e.clientY;
+            cursorDot.style.transform = `translate(${pointerX}px, ${pointerY}px)`;
+        });
+
+        (function trailCursor() {
+            ringX += (pointerX - ringX) * 0.16;
+            ringY += (pointerY - ringY) * 0.16;
+            cursorRing.style.transform = `translate(${ringX}px, ${ringY}px)`;
+            requestAnimationFrame(trailCursor);
+        })();
+
+        document.querySelectorAll('a, .territory-row, .plate').forEach(el => {
+            el.addEventListener('mouseenter', () => cursorRing.classList.add('is-hot'));
+            el.addEventListener('mouseleave', () => cursorRing.classList.remove('is-hot'));
+        });
+
+        // Reveal on scroll
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+
+        document.querySelectorAll('.reveal').forEach((el, i) => {
+            el.style.transitionDelay = `${Math.min(i % 5, 4) * 70}ms`;
+            revealObserver.observe(el);
+        });
     </script>
 </body>
 </html>
-

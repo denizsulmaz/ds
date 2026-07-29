@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deniz Sulmaz — Sound & Story</title>
+    <title>Deniz Sulmaz · Sound & Story</title>
     <link rel="shortcut icon" href="media/icon.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -107,6 +107,70 @@
         .spotify-card-content {
             grid-template-columns: 1fr 1.1fr !important;
         }
+
+        /* ---------- Responsive ----------
+           These live at the end of the page styles on purpose: the rules above are
+           declared after style.css, so style.css's own media queries cannot beat them. */
+        @media (max-width: 1024px) {
+            .track-card .card-content,
+            .spotify-card-content {
+                grid-template-columns: 1fr !important;
+                gap: 2.5rem;
+                text-align: center;
+            }
+            .store-grid {
+                flex-wrap: wrap;
+                gap: 1.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .track-card {
+                min-height: auto;
+                padding: 4rem 6%;
+            }
+            .track-headline {
+                font-size: 0.95rem;
+            }
+            .store-grid {
+                gap: 1rem;
+            }
+            .store-btn {
+                font-size: 1.25rem;
+            }
+            .visualizer-container {
+                height: 44px;
+                margin-bottom: 1.5rem;
+            }
+            .sleeve-under {
+                margin-top: 1rem;
+            }
+            .sleeve-container {
+                max-width: 240px;
+            }
+            .sleeve-column {
+                padding-bottom: 2rem;
+            }
+            .music-details h3 {
+                font-size: 1.6rem;
+            }
+            .music-story-box {
+                padding: 1.2rem;
+                min-height: 0;
+                margin-bottom: 1.5rem;
+            }
+            .music-story {
+                font-size: 0.98rem;
+            }
+            .player-bar {
+                gap: 1rem;
+            }
+            .play-toggle-btn {
+                width: 46px;
+                height: 46px;
+                font-size: 1.05rem;
+            }
+        }
     </style>
 </head>
 <body class="theme-music page-music">
@@ -125,11 +189,9 @@
     <!-- Floating Capsule Navigation -->
     <nav>
         <div class="menu">
-            <a href="index.html">Home</a>
-            <a href="#releases">Releases</a>
-            <a href="#about">About</a>
             <a href="corporate.html">Corporate</a>
-            <a href="music.html">Expression</a>
+            <a href="https://fistkolektif.com" target="_blank" rel="noopener noreferrer">Kolektif</a>
+            <a href="music.html" class="active">Expression</a>
             <a href="#contact">Contact</a>
         </div>
         <div class="menu-toggle">
@@ -140,9 +202,9 @@
     <!-- Mobile Menu Overlay -->
     <div class="mobile-menu-overlay">
         <div class="mobile-menu-items">
-            <a href="index.html">Home</a>
-            <a href="#releases">Releases</a>
-            <a href="#about">About</a>
+            <a href="corporate.html">Corporate</a>
+            <a href="https://fistkolektif.com" target="_blank" rel="noopener noreferrer">Kolektif</a>
+            <a href="music.html" class="active">Expression</a>
             <a href="#contact">Contact</a>
         </div>
     </div>
@@ -172,16 +234,16 @@
                                 <a href="https://open.spotify.com/artist/5HH58tdVUNRw2FDSa8xpGm" target="_blank" rel="noopener noreferrer" class="store-btn">
                                     <i class="fab fa-spotify"></i>
                                 </a>
-                                <a href="https://music.apple.com/us/search?term=Deniz%20Sulmaz%20Sardaana" target="_blank" rel="noopener noreferrer" class="store-btn">
+                                <a href="https://music.apple.com/us/artist/deniz-sulmaz/1852493875" target="_blank" rel="noopener noreferrer" class="store-btn">
                                     <i class="fab fa-apple"></i>
                                 </a>
-                                <a href="https://music.youtube.com/search?q=Deniz+Sulmaz+Sardaana" target="_blank" rel="noopener noreferrer" class="store-btn">
+                                <a href="https://www.youtube.com/channel/UCHKjACFQxXvSbfREygA94Ow" target="_blank" rel="noopener noreferrer" class="store-btn">
                                     <i class="fab fa-youtube"></i>
                                 </a>
                                 <a href="https://www.deezer.com/search/Deniz%20Sulmaz%20Sardaana" target="_blank" rel="noopener noreferrer" class="store-btn">
                                     <i class="fa-solid fa-music"></i>
                                 </a>
-                                <a href="https://music.amazon.com/search/Deniz+Sulmaz+Sardaana" target="_blank" rel="noopener noreferrer" class="store-btn">
+                                <a href="https://music.amazon.com/artists/B0G1Z6TNHW/deniz-sulmaz" target="_blank" rel="noopener noreferrer" class="store-btn">
                                     <i class="fab fa-amazon"></i>
                                 </a>
                                 <a href="https://music.yandex.ru/artist/6714093" target="_blank" rel="noopener noreferrer" class="store-btn">
@@ -251,16 +313,16 @@
                                 <a href="https://open.spotify.com/artist/5HH58tdVUNRw2FDSa8xpGm" target="_blank" rel="noopener noreferrer" class="store-btn">
                                     <i class="fab fa-spotify"></i>
                                 </a>
-                                <a href="https://music.apple.com" target="_blank" rel="noopener noreferrer" class="store-btn">
+                                <a href="https://music.apple.com/us/artist/deniz-sulmaz/1852493875" target="_blank" rel="noopener noreferrer" class="store-btn">
                                     <i class="fab fa-apple"></i>
                                 </a>
-                                <a href="https://music.youtube.com" target="_blank" rel="noopener noreferrer" class="store-btn">
+                                <a href="https://www.youtube.com/channel/UCHKjACFQxXvSbfREygA94Ow" target="_blank" rel="noopener noreferrer" class="store-btn">
                                     <i class="fab fa-youtube"></i>
                                 </a>
                                 <a href="https://www.deezer.com" target="_blank" rel="noopener noreferrer" class="store-btn">
                                     <i class="fa-solid fa-music"></i>
                                 </a>
-                                <a href="https://music.amazon.com" target="_blank" rel="noopener noreferrer" class="store-btn">
+                                <a href="https://music.amazon.com/artists/B0G1Z6TNHW/deniz-sulmaz" target="_blank" rel="noopener noreferrer" class="store-btn">
                                     <i class="fab fa-amazon"></i>
                                 </a>
                             </div>
@@ -296,12 +358,6 @@
                                 <em>Lacrima Maris</em> (Tears of the Sea) is an immersive ambient journey bridging natural ocean fields and deep synthesizer textures. Composed in a state of transit between coastal cliffs and tech hubs, it reflects natural flows.
                             </p>
                         </div>
-
-                        <div class="music-credits">
-                            <strong>Credits:</strong><br>
-                            Composed, Produced & Arranged by: Deniz Sulmaz<br>
-                            Synths & Sound Design: Deniz Sulmaz
-                        </div>
                     </div>
                 </div>
             </section>
@@ -326,16 +382,16 @@
                                 <a href="https://open.spotify.com/artist/5HH58tdVUNRw2FDSa8xpGm" target="_blank" rel="noopener noreferrer" class="store-btn">
                                     <i class="fab fa-spotify"></i>
                                 </a>
-                                <a href="https://music.apple.com" target="_blank" rel="noopener noreferrer" class="store-btn">
+                                <a href="https://music.apple.com/us/artist/deniz-sulmaz/1852493875" target="_blank" rel="noopener noreferrer" class="store-btn">
                                     <i class="fab fa-apple"></i>
                                 </a>
-                                <a href="https://music.youtube.com" target="_blank" rel="noopener noreferrer" class="store-btn">
+                                <a href="https://www.youtube.com/channel/UCHKjACFQxXvSbfREygA94Ow" target="_blank" rel="noopener noreferrer" class="store-btn">
                                     <i class="fab fa-youtube"></i>
                                 </a>
                                 <a href="https://www.deezer.com" target="_blank" rel="noopener noreferrer" class="store-btn">
                                     <i class="fa-solid fa-music"></i>
                                 </a>
-                                <a href="https://music.amazon.com" target="_blank" rel="noopener noreferrer" class="store-btn">
+                                <a href="https://music.amazon.com/artists/B0G1Z6TNHW/deniz-sulmaz" target="_blank" rel="noopener noreferrer" class="store-btn">
                                     <i class="fab fa-amazon"></i>
                                 </a>
                             </div>
@@ -371,12 +427,6 @@
                                 <em>Puppet Face</em> is a surreal exploration of identity in the age of digital mirrors. Modulating analog filters and microtonal bells create an off-kilter, dreamlike atmosphere where human expression is digitized and warped.
                             </p>
                         </div>
-
-                        <div class="music-credits">
-                            <strong>Credits:</strong><br>
-                            Composed, Produced & Structured by: Deniz Sulmaz<br>
-                            Modulations & Algorithmic Loops: Deniz Sulmaz
-                        </div>
                     </div>
                 </div>
             </section>
@@ -401,16 +451,16 @@
                                 <a href="https://open.spotify.com/artist/5HH58tdVUNRw2FDSa8xpGm" target="_blank" rel="noopener noreferrer" class="store-btn">
                                     <i class="fab fa-spotify"></i>
                                 </a>
-                                <a href="https://music.apple.com" target="_blank" rel="noopener noreferrer" class="store-btn">
+                                <a href="https://music.apple.com/us/artist/deniz-sulmaz/1852493875" target="_blank" rel="noopener noreferrer" class="store-btn">
                                     <i class="fab fa-apple"></i>
                                 </a>
-                                <a href="https://music.youtube.com" target="_blank" rel="noopener noreferrer" class="store-btn">
+                                <a href="https://www.youtube.com/channel/UCHKjACFQxXvSbfREygA94Ow" target="_blank" rel="noopener noreferrer" class="store-btn">
                                     <i class="fab fa-youtube"></i>
                                 </a>
                                 <a href="https://www.deezer.com" target="_blank" rel="noopener noreferrer" class="store-btn">
                                     <i class="fa-solid fa-music"></i>
                                 </a>
-                                <a href="https://music.amazon.com" target="_blank" rel="noopener noreferrer" class="store-btn">
+                                <a href="https://music.amazon.com/artists/B0G1Z6TNHW/deniz-sulmaz" target="_blank" rel="noopener noreferrer" class="store-btn">
                                     <i class="fab fa-amazon"></i>
                                 </a>
                             </div>
@@ -446,12 +496,6 @@
                                 <em>We Ain't Wasting Any Time</em> bridges high-speed synthesizer sequencing with classic warm analog beats, driving a perpetual, forward-moving sound architecture designed for transit.
                             </p>
                         </div>
-
-                        <div class="music-credits">
-                            <strong>Credits:</strong><br>
-                            Written, Composed & Produced by: Deniz Sulmaz<br>
-                            Modular Beats & Programming: Deniz Sulmaz
-                        </div>
                     </div>
                 </div>
             </section>
@@ -477,16 +521,16 @@
                                 <a href="https://open.spotify.com/artist/5HH58tdVUNRw2FDSa8xpGm" target="_blank" rel="noopener noreferrer" class="store-btn">
                                     <i class="fab fa-spotify"></i>
                                 </a>
-                                <a href="https://music.apple.com" target="_blank" rel="noopener noreferrer" class="store-btn">
+                                <a href="https://music.apple.com/us/artist/deniz-sulmaz/1852493875" target="_blank" rel="noopener noreferrer" class="store-btn">
                                     <i class="fab fa-apple"></i>
                                 </a>
-                                <a href="https://music.youtube.com" target="_blank" rel="noopener noreferrer" class="store-btn">
+                                <a href="https://www.youtube.com/channel/UCHKjACFQxXvSbfREygA94Ow" target="_blank" rel="noopener noreferrer" class="store-btn">
                                     <i class="fab fa-youtube"></i>
                                 </a>
                                 <a href="https://www.deezer.com" target="_blank" rel="noopener noreferrer" class="store-btn">
                                     <i class="fa-solid fa-music"></i>
                                 </a>
-                                <a href="https://music.amazon.com" target="_blank" rel="noopener noreferrer" class="store-btn">
+                                <a href="https://music.amazon.com/artists/B0G1Z6TNHW/deniz-sulmaz" target="_blank" rel="noopener noreferrer" class="store-btn">
                                     <i class="fab fa-amazon"></i>
                                 </a>
                             </div>
@@ -522,12 +566,6 @@
                                 <em>Promise</em> features modular granular textures over a clean, melancholic piano progression. The composition reflects structural simplicity decaying into beautiful analog dust.
                             </p>
                         </div>
-
-                        <div class="music-credits">
-                            <strong>Credits:</strong><br>
-                            Composed & Produced by: Deniz Sulmaz<br>
-                            Piano & Granular Synthesis: Deniz Sulmaz
-                        </div>
                     </div>
                 </div>
             </section>
@@ -553,16 +591,16 @@
                                 <a href="https://open.spotify.com/artist/5HH58tdVUNRw2FDSa8xpGm" target="_blank" rel="noopener noreferrer" class="store-btn">
                                     <i class="fab fa-spotify"></i>
                                 </a>
-                                <a href="https://music.apple.com" target="_blank" rel="noopener noreferrer" class="store-btn">
+                                <a href="https://music.apple.com/us/artist/deniz-sulmaz/1852493875" target="_blank" rel="noopener noreferrer" class="store-btn">
                                     <i class="fab fa-apple"></i>
                                 </a>
-                                <a href="https://music.youtube.com" target="_blank" rel="noopener noreferrer" class="store-btn">
+                                <a href="https://www.youtube.com/channel/UCHKjACFQxXvSbfREygA94Ow" target="_blank" rel="noopener noreferrer" class="store-btn">
                                     <i class="fab fa-youtube"></i>
                                 </a>
                                 <a href="https://www.deezer.com" target="_blank" rel="noopener noreferrer" class="store-btn">
                                     <i class="fa-solid fa-music"></i>
                                 </a>
-                                <a href="https://music.amazon.com" target="_blank" rel="noopener noreferrer" class="store-btn">
+                                <a href="https://music.amazon.com/artists/B0G1Z6TNHW/deniz-sulmaz" target="_blank" rel="noopener noreferrer" class="store-btn">
                                     <i class="fab fa-amazon"></i>
                                 </a>
                             </div>
@@ -597,12 +635,6 @@
                                 <strong>Behind the Track:</strong><br>
                                 <em>November</em> captures the transition of seasons, a reflection on autumn's quiet decay and mechanical beauty. Heavy ambient pads overlay glitch rhythms and field recordings of autumn rain, evoking melancholic architecture.
                             </p>
-                        </div>
-
-                        <div class="music-credits">
-                            <strong>Credits:</strong><br>
-                            Composed, Produced & Programmed by: Deniz Sulmaz<br>
-                            Field Recordings & Synthesizers: Deniz Sulmaz
                         </div>
                     </div>
                 </div>
@@ -653,7 +685,6 @@
 
                         <div class="music-credits">
                             <strong>Credits:</strong><br>
-                            Composed & Performed by: Deniz Sulmaz<br>
                             Visual Coding & Design: touchdesigner & custom algorithms
                         </div>
                     </div>
@@ -695,19 +726,17 @@
 
     <!-- Footer -->
     <footer id="contact">
-        <div class="footer-logo">Deniz Sulmaz</div>
-        <div class="footer-links">
-            <a>Istanbul</a>
-            <a>Bangkok</a>
-            <a>Barcelona</a>
+        <div class="footer-meta">
+            <span class="footer-origin">Istanbul to World</span>
+            <span class="copy">Fist Kolektif, 2026 © All rights reserved</span>
         </div>
+        <div class="footer-logo">Deniz Sulmaz</div>
         <div class="social-icons">
             <a href="http://instagram.com/denizsulmaz_" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
             <a href="https://denizsulmaz.medium.com/" target="_blank" rel="noopener noreferrer"><i class="fab fa-medium"></i></a>
             <a href="https://github.com/denizsulmaz/" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
             <a href="https://www.linkedin.com/in/denizsulmaz/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
         </div>
-        <div class="copy">Self Developed — 2026 © All rights reserved</div>
     </footer>
 
     <!-- Scripts -->
