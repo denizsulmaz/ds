@@ -506,7 +506,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!isMusicPage) return;
 
   const tracks = [
-    { title: "Sardaana", previewUrl: "https://p.scdn.co/mp3-preview/25622ad72e583c0e2265d1c8f0262dcd29fe5322" }, // placeholder audio preview
+    { title: "Sardaana", previewUrl: "https://p.scdn.co/mp3-preview/8a33b2cb905fab31cdc473f2bbb4d89b51686b6a" }, // spotify:track:6XEEAz8KgD261Jn4AYufyq
     { title: "Lacrima Maris", previewUrl: "https://p.scdn.co/mp3-preview/25622ad72e583c0e2265d1c8f0262dcd29fe5322" },
     { title: "Puppet Face", previewUrl: "https://p.scdn.co/mp3-preview/93393c2bc5e782be4c3c10ff8e578d11a9c8a29f" },
     { title: "We Ain't Wasting Any Time", previewUrl: "https://p.scdn.co/mp3-preview/7859a4d991f6385abc2a32381d064a1a72bc8a51" },
